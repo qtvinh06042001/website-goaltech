@@ -5,7 +5,7 @@ import { Logo } from "@/components/shared/Logo";
 
 const socialIcons = [
   { src: "/images/facebook.svg", alt: "Facebook" },
-  { src: "/images/message.svg", alt: "Message" },
+  { src: "/images/messenger.svg", alt: "Messenger" },
   { src: "/images/tiktok.svg", alt: "TikTok" },
   { src: "/images/instagram.svg", alt: "Instagram" },
   { src: "/images/linkedin.svg", alt: "LinkedIn" },
@@ -14,16 +14,15 @@ const socialIcons = [
 const cols = [
   {
     title: "Giới thiệu",
-    links: ["Về chúng tôi", "Câu chuyện thương hiệu", "Đội ngũ nhân viên"],
+    links: ["Về chúng tôi", "Câu chuyện thương hiệu", "Đội ngũ nhân viên", "Sản phẩm"],
   },
   {
-    title: "Giải pháp",
+    title: "Dịch vụ",
     links: [
-      "Hệ thống camera giám sát",
-      "Giải pháp về CNTT",
-      "Hệ thống kiểm soát xe",
-      "Hệ thống quản lý truy cập",
-      "Phát triển các nền tảng số",
+      "Phát triển Web/App",
+      "Chuyển đổi số",
+      "AI & Automation",
+      "Cloud & DevOps",
     ],
   },
   {
@@ -31,20 +30,16 @@ const cols = [
     links: ["Đối tác", "Dự án nổi bật"],
   },
   {
-    title: "Tuyển dụng",
-    links: ["Về chúng tôi", "Câu chuyện thương hiệu"],
-  },
-  {
     title: "Tin tức",
-    links: ["Blog", "Về giáo dục"],
+    links: ["Blog", "Về công nghệ"],
   },
 ];
 
 export function Footer() {
   return (
     <footer className="w-full bg-white">
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-10 py-14">
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-0">
+      <div className="mx-auto max-w-[1300px] px-6 lg:px-10 py-20">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
           {/* LEFT: logo + contact + social */}
           <div className="w-full lg:w-[320px] flex flex-col gap-6">
             <Logo className="h-12 w-auto" />
@@ -114,10 +109,10 @@ export function Footer() {
       </div>
 
       {/* bottom bar */}
-      <div className="w-full bg-gray-200 py-4 lg:py-6">
-        <div className="max-w-[1200px] mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3">
+      <div className="w-full bg-gray-100 py-4 lg:py-6">
+        <div className="max-w-[1300px] mx-auto px-6 lg:px-10 items-center justify-center sm:justify-between gap-3">
           <p className="text-black text-sm text-center">
-            © 2025 GoalTech, Inc. | All rights reserved
+            © 2025 GoalTech
           </p>
         </div>
       </div>

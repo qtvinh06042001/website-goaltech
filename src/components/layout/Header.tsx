@@ -91,7 +91,7 @@ export function Header() {
     >
       <motion.div
         className={`flex items-center justify-between h-[72px] lg:h-[96px]
-      px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-32
+      px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16
       ${scrolled ? "py-3 lg:py-4" : "py-4 lg:py-6"}
     `}
         transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -113,18 +113,17 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation (no dropdown) */}
-        <nav className="hidden lg:flex items-center gap-6 md:gap-8 lg:gap-10 xl:gap-14 relative">
+        <nav className="hidden lg:flex items-center gap-4 md:gap-6 lg:gap-8 xl:gap-10 relative">
           {navItems.map((item, index) => (
             <Link
               key={index}
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-2 text-[16px] leading-6 whitespace-nowrap
-            ${
-              isActive(item.href)
-                ? "font-semibold text-[#1851C1] border-[#112639]"
-                : "font-normal text-[#112639] hover:text-[#1851C1]"
-            }`}
+            ${isActive(item.href)
+                  ? "font-semibold text-[#1851C1] border-[#112639]"
+                  : "font-normal text-[#112639] hover:text-[#1851C1]"
+                }`}
             >
               {item.label}
             </Link>
@@ -132,7 +131,7 @@ export function Header() {
         </nav>
 
         {/* CTA Desktop */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2">
           <Button className="h-10 xl:h-12 px-4 xl:px-5 text-sm xl:text-base font-semibold border-2 border-[#2B7BFF] text-[#2B7BFF] bg-white hover:bg-[#a3ccfa] transition">
             Tư vấn miễn phí
           </Button>
@@ -167,11 +166,10 @@ export function Header() {
                 <Link
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block py-2 px-2 rounded-md ${
-                    isActive(item.href)
-                      ? "font-semibold text-[#1851C1]"
-                      : "font-normal text-[#112639]"
-                  }`}
+                  className={`block py-2 px-2 rounded-md ${isActive(item.href)
+                    ? "font-semibold text-[#1851C1]"
+                    : "font-normal text-[#112639]"
+                    }`}
                 >
                   {item.label}
                 </Link>
