@@ -4,3 +4,4 @@ export { AboutFeatures } from "./AboutFeatures";
 export { ServicesHighlights } from "./ServicesHighlights";
 export { ProjectsShowcase } from "./ProjectsShowcase";
 export { Partners } from "./Partners";
+export { default as CTA } from "./CTA";
