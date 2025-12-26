@@ -9,204 +9,92 @@ import { Header } from "../layout/Header";
 import { motion } from "framer-motion";
 
 export function CompanyIntro() {
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = () => {
-    console.log("Email submitted:", email);
-  };
+  const [slide, setSlide] = useState(0);
 
   return (
-    <div className="relative order-0 overflow-hidden">
-      {/* Background + Cube */}
-      <motion.div
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="absolute inset-0 -z-10"
-      >
-        <Image
-          src="/images/company_intro_background.png"
-          alt="Company Background"
-          fill
-          priority
-          className="object-cover"
-        />
-
-        {/* Cube overlay: chỉ mobile */}
-        <div className="absolute inset-x-0 top-[110px] flex justify-center md:hidden overflow-hidden">
+    <div>
+      <Header />
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-16 relative overflow-hidden rounded-2xl">
+        {/* Background image / blue grid */}
+        <div className="absolute inset-0 -z-20 overflow-hidden rounded-2xl">
           <Image
-            src="/images/cube_intro.png"
-            alt="Cube Intro"
-            width={420}
-            height={420}
+            src="/images/company_intro_background.png"
+            alt="background"
+            fill
             priority
-            className="w-[92%] max-w-[420px] h-auto object-contain"
+            className="object-cover object-center transform scale-[1.02] lg:scale-[1.08]"
           />
         </div>
-      </motion.div>
 
-      {/* Header */}
-      <div className="relative z-30">
-        <Header />
+        {/* Header (transparent over background) */}
+        <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-b from-[#3696FF] to-[#0039D5]/80 mix-blend-multiply"></div>
+
+        {/* Main content */}
+        <section className="relative z-20 py-24 lg:py-32">
+          <Container>
+            <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-8">
+              {/* Left: content */}
+              <motion.div
+                className="md:col-span-8 lg:col-span-8 text-white"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="max-w-3xl">
+                  <div className="inline-block px-3 py-1 rounded-full bg-white/30 text-sm text-white mb-4">
+                    Chào mừng đến với GoalTech
+                  </div>
+
+                  <Heading
+                    level={1}
+                    className="font-bold text-white leading-tight text-2xl sm:text-3xl md:text-4xl lg:text-[48px] mb-4"
+                  >
+                    Giải Pháp Công Nghệ Hiện Đại
+                    <br />
+                    <br />
+                    Cho Doanh Nghiệp
+                  </Heading>
+
+                  <Paragraph className="text-white/85 mb-8 max-w-[680px]">
+                    Chúng tôi mang đến giải pháp phần mềm, chuyển đổi số và công
+                    <br />
+                    nghệ AI giúp doanh nghiệp phát triển bền vững.
+                  </Paragraph>
+
+                  <div className="flex flex-wrap gap-4 items-center">
+                    <Button className="h-12 px-5 border-2 border-[#2B7BFF] text-[#2B7BFF] bg-white hover:bg-[#a3ccfa] shadow-md">
+                      Tư vấn miễn phí
+                    </Button>
+
+                    <Button className="h-12 px-5 border-2 border-[#ffffff] text-[#ffffff]  bg-white/30 hover:bg-[#2B7BFF]">
+                      Xem dịch vụ
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right: hero illustration */}
+              <motion.div
+                className="md:col-span-4 lg:col-span-4 relative flex justify-end items-center"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 }}
+              >
+                <div className="w-full max-w-[520px] lg:max-w-[620px]">
+                  <Image
+                    src="/images/hero_ai_3d.png"
+                    alt="Hero"
+                    width={820}
+                    height={580}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </Container>
+        </section>
       </div>
-
-      {/* Content */}
-      <section className="relative z-10 pt-28 sm:pt-32 md:pt-20 pb-16 md:pb-32">
-        <Container>
-          <div
-            className="
-              grid grid-cols-1
-              md:grid-cols-[1.2fr_0.8fr]
-              gap-12 md:gap-16 items-center
-              min-h-[70vh]
-              xl:mr-36
-            "
-          >
-            {/* ---- Desktop Content (slide từ trên xuống) ---- */}
-            <motion.div
-              className="hidden md:block space-y-6 mt-3 md:space-y-8"
-              initial={{ opacity: 0, y: -50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <div className="space-y-2">
-                <Heading
-                  level={1}
-                  className="font-semibold text-[#1792ED] uppercase tracking-wide leading-tight
-                             text-2xl sm:text-3xl md:text-4xl lg:text-[56px]"
-                >
-                  Đổi mới sáng tạo
-                </Heading>
-                <Heading
-                  level={2}
-                  className="
-    font-semibold text-[#112639] uppercase tracking-wide leading-tight
-    text-2xl sm:text-3xl md:text-4xl lg:text-[56px]
-    text-center md:text-left
-    break-words whitespace-normal md:whitespace-nowrap
-  "
-                >
-                  Kỷ nguyên vươn mình
-                </Heading>
-              </div>
-
-              <Paragraph className="font-inter font-normal text-base leading-6 text-[#7B849F] max-w-2xl">
-                Antco đồng hành cùng chính phủ và doanh nghiệp trên hành trình
-                chuyển đổi số, mang đến các giải pháp công nghệ tùy chỉnh và
-                tiên tiến. Chúng tôi tích hợp trí tuệ nhân tạo thông minh, điện
-                toán đám mây, hạ tầng bảo mật và phân tích dữ liệu lớn để tối ưu
-                hóa quy trình vận hành, nâng cao trải nghiệm người dùng và đảm
-                bảo hiệu quả bền vững cho đối tác.
-              </Paragraph>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-lg mt-8">
-                <div
-                  className="flex-1 flex items-center px-4 py-3
-                              bg-white/40 border border-white rounded-full
-                              backdrop-blur-md shadow-sm w-full"
-                >
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Nhập email"
-                    className="flex-1 bg-transparent outline-none border-none
-                     font-inter text-base leading-6 text-[#7B849F]
-                     placeholder:text-[#7B849F]"
-                  />
-                </div>
-
-                <Button
-                  withArrow
-                  onClick={handleSubmit}
-                  className="inline-flex justify-center items-center px-6 py-4 gap-2 w-full sm:w-[165px] h-[56px]
-                   font-inter font-semibold text-base leading-6 text-white
-                   rounded-full bg-gradient-to-r from-[#2BA9FA] to-[#1851C1]"
-                >
-                  Liên hệ ngay
-                </Button>
-              </div>
-            </motion.div>
-
-            {/* ---- Mobile Card (slide từ dưới lên) ---- */}
-            <motion.div
-              className="
-                md:hidden
-                relative z-20
-                mx-auto mt-[360px]
-                w-[92%] max-w-[380px]
-                p-6
-                rounded-[24px]
-                bg-white/30 border border-white
-                backdrop-blur-[5px]
-                shadow-[0_8px_30px_rgba(0,0,0,0.08)]
-                flex flex-col gap-6
-              "
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <div className="space-y-2">
-                <Heading
-                  level={1}
-                  className="font-semibold text-[#1792ED] uppercase tracking-wide leading-tight text-2xl"
-                >
-                  Đổi mới sáng tạo
-                </Heading>
-                <Heading
-                  level={2}
-                  className="
-                      font-semibold text-[#112639] uppercase tracking-wide leading-tight
-                      text-2xl sm:text-3xl md:text-4xl lg:text-[56px]
-                      md:whitespace-nowrap
-                      "
-                >
-                  Kỷ nguyên vươn mình
-                </Heading>
-              </div>
-
-              <Paragraph className="font-inter font-normal text-base leading-6 text-[#7B849F]">
-                Antco đồng hành cùng chính phủ và doanh nghiệp trên hành trình
-                chuyển đổi số, mang đến các giải pháp công nghệ tùy chỉnh và
-                tiên tiến. Chúng tôi tích hợp trí tuệ nhân tạo thông minh, điện
-                toán đám mây, hạ tầng bảo mật và phân tích dữ liệu lớn để tối ưu
-                hóa quy trình vận hành, nâng cao trải nghiệm người dùng và đảm
-                bảo hiệu quả bền vững cho đối tác.
-              </Paragraph>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-                <div
-                  className="flex-1 flex items-center px-4 py-3
-                              bg-white/40 border border-white rounded-full
-                              backdrop-blur-md shadow-sm w-full"
-                >
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Nhập email"
-                    className="flex-1 bg-transparent outline-none border-none
-                     font-inter text-base leading-6 text-[#7B849F]
-                     placeholder:text-[#7B849F]"
-                  />
-                </div>
-
-                <Button
-                  withArrow
-                  onClick={handleSubmit}
-                  className="inline-flex justify-center items-center px-6 py-4 gap-2 w-full sm:w-[165px] h-[56px]
-                   font-inter font-semibold text-base leading-6 text-white
-                   rounded-full bg-gradient-to-r from-[#2BA9FA] to-[#1851C1]"
-                >
-                  Liên hệ ngay
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </Container>
-      </section>
     </div>
   );
 }

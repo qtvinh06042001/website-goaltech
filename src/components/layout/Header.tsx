@@ -69,14 +69,14 @@ export function Header() {
     });
   };
 
+  const headerPositionClass =
+    scrolled || mobileOpen ? "fixed top-0 left-0 right-0" : "relative";
+
   return (
     <motion.header
       initial={false}
       animate={{
-        backgroundColor:
-          scrolled || mobileOpen
-            ? "rgba(255,255,255,1)"
-            : "rgba(255,255,255,0)",
+        backgroundColor: "rgba(255,255,255,1)",
         backdropFilter: scrolled || mobileOpen ? "blur(12px)" : "blur(0px)",
         boxShadow:
           scrolled || mobileOpen
@@ -86,11 +86,11 @@ export function Header() {
         marginRight: scrolled && screenWidth >= 1024 ? screenWidth * 0.02 : 0,
         marginTop: scrolled && screenWidth >= 1024 ? "20px" : 0,
       }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+      className={`${headerPositionClass} top-0 left-0 right-0 z-50 transition-all duration-300
   ${mobileOpen ? " lg:rounded-[2.5rem]" : "  lg:rounded-[2.5rem]"}`}
     >
       <motion.div
-        className={`flex items-center justify-between h-[72px] lg:h-[96px]
+        className={`flex items-center justify-between h-[64px] lg:h-[72px]
       px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16
       ${scrolled ? "py-3 lg:py-4" : "py-4 lg:py-6"}
     `}
@@ -120,10 +120,11 @@ export function Header() {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-2 text-[16px] leading-6 whitespace-nowrap
-            ${isActive(item.href)
-                  ? "font-semibold text-[#1851C1] border-[#112639]"
-                  : "font-normal text-[#112639] hover:text-[#1851C1]"
-                }`}
+            ${
+              isActive(item.href)
+                ? "font-semibold text-[#1851C1] border-[#112639]"
+                : "font-normal text-[#112639] hover:text-[#1851C1]"
+            }`}
             >
               {item.label}
             </Link>
@@ -166,10 +167,11 @@ export function Header() {
                 <Link
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block py-2 px-2 rounded-md ${isActive(item.href)
-                    ? "font-semibold text-[#1851C1]"
-                    : "font-normal text-[#112639]"
-                    }`}
+                  className={`block py-2 px-2 rounded-md ${
+                    isActive(item.href)
+                      ? "font-semibold text-[#1851C1]"
+                      : "font-normal text-[#112639]"
+                  }`}
                 >
                   {item.label}
                 </Link>
