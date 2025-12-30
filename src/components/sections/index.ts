@@ -4,3 +4,5 @@ export { AboutFeatures } from "./AboutFeatures";
 export { ServicesHighlights } from "./ServicesHighlights";
 export { ProjectsShowcase } from "./ProjectsShowcase";
 export { Partners } from "./Partners";
+export { ContactSection } from "./ContactSection";
+export { ProcessSteps } from "./ProcessSteps";
