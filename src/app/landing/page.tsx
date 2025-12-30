@@ -5,7 +5,8 @@ import {
   ServicesHighlights,
   ProjectsShowcase,
   Partners,
-  CTA,
+  ContactSection,
+  ProcessSteps,
 } from "@/components/sections";
 
 export default function LandingPage() {
@@ -15,9 +16,10 @@ export default function LandingPage() {
       <MarketingStats />
       <AboutFeatures />
       <ServicesHighlights />
-      <ProjectsShowcase />
+      <ProcessSteps />
       <Partners />
-      <CTA />
+      <ProjectsShowcase />
+      <ContactSection />
     </div>
   );
 }

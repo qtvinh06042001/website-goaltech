@@ -42,6 +42,26 @@ export function ProjectsShowcase() {
   return (
     <section className="py-20">
       <Container>
+        <div className="flex flex-col items-center gap-4">
+          <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
+            <Image
+              src="/images/head.svg"
+              alt="GoalTech"
+              width={18}
+              height={18}
+              className="w-4.5 h-4.5"
+            />
+            <span>Sản Phẩm</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F1724] text-center">
+            Sản phẩm <span className="text-blue-600">Nổi bật</span>
+          </h2>
+
+          <p className="text-center text-[#6B7280] max-w-2xl">
+            Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp
+          </p>
+        </div>
         <div className="flex flex-col gap-16">
           {projects.map((p, idx) => {
             // image left for idx 0, image right for idx 1, alternate thereafter
@@ -130,24 +150,6 @@ export function ProjectsShowcase() {
                   // order opposite of image on md+
                   style={{ order: isImageLeft ? 2 : 1 }}
                 >
-                  <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm mb-4 w-max">
-                    <svg
-                      className="w-4 h-4 text-[#2BA9FA]"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path
-                        d="M12 2v20M2 12h20"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>Dự án nổi bật</span>
-                  </div>
-
                   <h3 className="text-3xl md:text-4xl font-extrabold text-[#0F1724] mb-4">
                     {p.title}
                   </h3>
