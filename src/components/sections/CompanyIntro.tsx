@@ -12,15 +12,10 @@ export function CompanyIntro() {
       <Header />
       <section className="relative min-h-[120vh] w-full flex flex-col items-center justify-center overflow-hidden bg-[#f8fbff] px-4 pt-20">
         <div className="absolute bottom-1.5 inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover opacity-60 translate-y-96" // Chỉnh opacity để text dễ đọc
-          >
-            <source src="/images/data-wave.mp4" type="video/mp4" />
-          </video>
+          <img
+  src="/images/data-wave.gif"
+  className="w-full h-full object-cover opacity-60 translate-y-60"
+/>
           {/* Lớp phủ gradient nhẹ để hòa quyện video vào nền trắng */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#bbd5f7] via-transparent to-[#F8FBFF]" />
         </div>

@@ -10,17 +10,11 @@ import { CheckCircle2 } from "lucide-react";
 export function ContactSection() {
   return (
     <section className="relative bg-[#2B7BFF] py-20 overflow-hidden">
-      {/* Background Sóng (Tận dụng lại video hoặc pattern chấm của bạn) */}
       <div className="absolute inset-0 opacity-20 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-60 translate-y-96" // Chỉnh opacity để text dễ đọc
-        >
-          <source src="/images/data-wave.mp4" type="video/mp4" />
-        </video>
+       <img
+  src="/images/data-wave.gif"
+  className="w-full h-full object-cover opacity-60 translate-y-60"
+/>
       </div>
 
       <Container className="relative z-10">
