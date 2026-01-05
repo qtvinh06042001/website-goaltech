@@ -1,194 +1,142 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
 
-const projects = [
+const products = [
   {
+    key: "goalme",
+    label: "GoalMe",
+    logo: "/images/logo-goalme.png",
     title: "GoalMe - Ứng dụng thể thao",
-    subtitle: "Ứng dụng công nghệ để cải thiện trải nghiệm người dùng thể thao",
-    bullets: [
-      "Giao diện người dùng thân thiện",
-      "Tích hợp thanh toán & định vị",
-      "Quản lý sự kiện & lịch tập",
+    description:
+      "Ứng dụng được phát triển với mục tiêu kết nối người chơi, huấn luyện viên...",
+    features: [
+      "Kết nối người chơi thể thao",
+      "Quản lý đội & lịch thi đấu",
+      "Ứng dụng công nghệ AI",
+      "Hệ thống quản lý chuyên nghiệp",
     ],
-    img: "/images/goalme_app.png",
+    image: "/images/goalme_app.png",
+    cta: "Xem chi tiết",
   },
   {
-    title: "GoalPay - Thanh toán số",
-    subtitle: "Giải pháp thanh toán nhanh, an toàn cho doanh nghiệp vừa và nhỏ",
-    bullets: [
-      "Tích hợp nhiều cổng thanh toán",
-      "Bảo mật & tuân thủ chuẩn quốc tế",
-      "Báo cáo & phân tích giao dịch",
-    ],
-    img: "/images/goalme_app.png",
-  },
-  {
-    title: "GoalCloud - Hạ tầng & DevOps",
-    subtitle: "Triển khai hạ tầng đám mây, tối ưu CI/CD và giám sát hệ thống",
-    bullets: [
-      "Cloud migration & management",
-      "CI/CD pipeline tối ưu",
-      "Monitoring & security",
-    ],
-    img: "/images/goalme_app.png",
+    key: "goalmanager",
+    label: "GoalManager",
+    logo: "/images/logo-goalme.png",
+    title: "GoalManager - Quản lý",
+    description: "Nền tảng quản lý toàn diện dành cho CLB, trung tâm thể thao.",
+    features: ["Quản lý hội viên", "Theo dõi doanh thu", "Báo cáo thông minh"],
+    image: "/images/goalme_app.png",
+    cta: "Khám phá",
   },
 ];
 
 export function ProjectsShowcase() {
+  const [active, setActive] = useState(products[0].key);
+  const product = products.find((p) => p.key === active)!;
   return (
     <section className="py-20">
       <Container>
-        <div className="flex flex-col gap-16">
-          {projects.map((p, idx) => {
-            // image left for idx 0, image right for idx 1, alternate thereafter
-            const isImageLeft = idx % 2 === 0;
+        <div className="flex flex-col items-center gap-4">
+          <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
+            <Image
+              src="/images/icons/head.svg"
+              alt="GoalTech"
+              width={18}
+              height={18}
+              className="w-4.5 h-4.5"
+            />
+            <span>Sản Phẩm</span>
+          </div>
 
-            return (
-              <motion.div
-                key={p.title}
-                className={`grid grid-cols-1 md:grid-cols-12 items-center gap-8 ${
-                  !isImageLeft ? "md:mt-12" : ""
-                }`}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
-                variants={{
-                  hidden: { opacity: 0, y: 18 },
-                  show: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.7, ease: "easeOut" },
-                  },
-                }}
-              >
-                {/* Image column */}
-                <motion.div
-                  className={`md:col-span-6 flex ${
-                    isImageLeft ? "justify-start" : "justify-end"
-                  } relative md:transform ${
-                    isImageLeft ? "md:-translate-y-6" : "md:translate-y-6"
-                  }`}
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      x: isImageLeft ? -24 : 24,
-                      scale: 0.98,
-                    },
-                    show: {
-                      opacity: 1,
-                      x: 0,
-                      scale: 1,
-                      transition: {
-                        duration: 0.9,
-                        type: "spring",
-                        stiffness: 120,
-                      },
-                    },
-                  }}
-                  // place image first when left on md+
-                  style={{ order: isImageLeft ? 1 : 2 }}
-                >
-                  <div
-                    aria-hidden
-                    className={`absolute rounded-full filter blur-[64px] opacity-80 ${
-                      isImageLeft
-                        ? "left-0 md:-left-10"
-                        : "right-0 md:-right-10"
-                    } -z-10`}
-                    style={{
-                      width: 520,
-                      height: 520,
-                      background:
-                        "radial-gradient(closest-side, rgba(40,140,255,0.22), rgba(40,140,255,0.08) 40%, rgba(255,255,255,0) 60%)",
-                    }}
-                  />
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F1724] text-center">
+            Sản Phẩm <span className="text-blue-600">Nổi Bật</span>
+          </h2>
 
-                  <div className="relative w-[260px] sm:w-[340px] md:w-[380px] lg:w-[440px]">
-                    <div className="rounded-3xl overflow-visible drop-shadow-2xl">
-                      <Image
-                        src={p.img}
-                        alt={p.title}
-                        width={820}
-                        height={680}
-                        className="w-full h-auto relative z-10"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
+          <p className="text-center text-[#6B7280] max-w-2xl">
+            Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp
+          </p>
+        </div>
+        <div className="flex justify-center gap-4 mb-16">
+          {products.map((p) => (
+            <button
+              key={p.key}
+              onClick={() => setActive(p.key)}
+              className={`px-6 py-2 rounded-full font-semibold transition
+              ${
+                active === p.key
+                  ? "bg-blue-600 text-white shadow"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+        {/* CONTENT */}
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-6">
+          {/* LEFT */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={product.key}
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Image
+                src={product.logo}
+                alt=""
+                width={120}
+                height={40}
+                className="mb-6"
+              />
 
-                {/* Text column */}
-                <motion.div
-                  className={`md:col-span-6 relative px-4`}
-                  variants={{
-                    hidden: { opacity: 0, x: isImageLeft ? 24 : -24 },
-                    show: { opacity: 1, x: 0, transition: { duration: 0.7 } },
-                  }}
-                  // order opposite of image on md+
-                  style={{ order: isImageLeft ? 2 : 1 }}
-                >
-                  <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm mb-4 w-max">
-                    <svg
-                      className="w-4 h-4 text-[#2BA9FA]"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path
-                        d="M12 2v20M2 12h20"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>Dự án nổi bật</span>
-                  </div>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                {product.title}
+              </h3>
 
-                  <h3 className="text-3xl md:text-4xl font-extrabold text-[#0F1724] mb-4">
-                    {p.title}
-                  </h3>
-                  <p className="text-[#6B7280] max-w-2xl mb-6">{p.subtitle}</p>
+              <p className="text-slate-600 mb-6">{product.description}</p>
 
-                  <ul className="space-y-3 text-sm text-[#374151] mb-6">
-                    {p.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-3">
-                        <span className="mt-1 inline-flex w-5 h-5 rounded-full bg-white border border-[#2BA9FA] text-[#2BA9FA] items-center justify-center text-xs">
-                          ✓
-                        </span>
-                        <span className="leading-tight">{b}</span>
-                      </li>
-                    ))}
-                  </ul>
+              <ul className="space-y-3 mb-8">
+                {product.features.map((f, i) => (
+                  <li key={i} className="flex gap-3 text-slate-700">
+                    <CheckCircle2 className="text-blue-600 w-5 h-5" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
 
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 text-[#FF6B2D] font-medium"
-                    aria-label={`Xem chi tiết ${p.title}`}
-                  >
-                    Xem chi tiết
-                    <svg
-                      className="w-4 h-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      aria-hidden
-                    >
-                      <path
-                        d="M5 12h14M13 5l7 7-7 7"
-                        stroke="#FF6B2D"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+              <Button className="bg-gradient-to-b from-[#FFAF8B] to-[#FF5E15] hover:opacity-90 text-white px-8">
+                {product.cta}
+              </Button>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* RIGHT */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={product.image}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.4 }}
+              className="flex justify-center"
+            >
+              <Image
+                src={product.image}
+                alt=""
+                width={420}
+                height={600}
+                className="drop-shadow-2xl"
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </Container>
     </section>
