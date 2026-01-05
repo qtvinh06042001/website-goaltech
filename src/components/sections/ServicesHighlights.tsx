@@ -1,203 +1,142 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, useInView, useAnimation } from "framer-motion";
-import { Container } from "@/components/ui/container";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const services = [
   {
-    title: "Phát triển phần mềm",
-    bullets: [
-      "Website & Web Application",
-      "Mobile App (iOS & Android)",
-      "Hệ thống ERP, CRM",
-    ],
-    icon: "/images/cpu.svg",
+    slug: "it-modernization",
+    title: "IT Assessment & Modernization",
+    desc: "Evaluate, optimize and modernize legacy IT systems.",
+    icon: "/icons/modernization.svg",
   },
   {
-    title: "Chuyển đổi số",
-    bullets: [
-      "Tư vấn chiến lược số hoá",
-      "Tối ưu quy trình nghiệp vụ",
-      "Triển khai hệ thống quản lý",
-    ],
-    icon: "/images/global.svg",
+    slug: "software-development",
+    title: "Custom Software Development",
+    desc: "Enterprise-grade software tailored to business needs.",
+    icon: "/icons/software.svg",
   },
   {
-    title: "AI & Automation",
-    bullets: [
-      "Chatbot & AI Assistant",
-      "Phân tích dữ liệu & Dự đoán",
-      "Tự động hóa quy trình",
-    ],
-    icon: "/images/head.svg",
+    slug: "ai-rnd",
+    title: "AI & New Technology R&D",
+    desc: "Research and apply AI, Data, Blockchain technologies.",
+    icon: "/icons/ai.svg",
   },
   {
-    title: "Cloud & DevOps",
-    bullets: [
-      "Cloud Migration & Management",
-      "CI/CD Pipeline",
-      "Monitoring & Security",
-    ],
-    icon: "/images/cloud.svg",
+    slug: "odc",
+    title: "Offshore Development Center",
+    desc: "Build and scale dedicated offshore engineering teams.",
+    icon: "/icons/odc.svg",
   },
 ];
 
 export function ServicesHighlights() {
-  const ref = useRef<HTMLElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (inView) controls.start("show");
-  }, [inView, controls]);
-
   return (
-    <motion.section
-      ref={ref}
-      className="relative py-20"
-      initial="hidden"
-      animate={controls}
-      // variants defined inline
-      variants={{
-        hidden: { opacity: 0, y: 18 },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { staggerChildren: 0.08, when: "beforeChildren" },
-        },
-      }}
-    >
-      {/* subtle background */}
-      <motion.div
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-blue-50 to-white"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.6 }}
-      />
+    <section className="relative py-32 bg-[#F7FAFF] overflow-hidden">
+      {/* BACKGROUND WAVE / SHAPE */}
+      <svg
+        className="absolute top-0 left-0 w-full h-[500px] opacity-30"
+        viewBox="0 0 1440 400"
+        fill="none"
+      >
+        <path
+          d="M0,160 C240,260 480,60 720,120 960,180 1200,140 1440,80"
+          stroke="#3B82F6"
+          strokeWidth="1"
+          fill="none"
+        />
+      </svg>
 
-      <Container>
-        <div className="flex flex-col items-center gap-4">
-          <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
-            <svg
-              className="w-4 h-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                d="M12 2v20M2 12h20"
-                stroke="#2BA9FA"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span>Dịch vụ</span>
-          </div>
+      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-200/40 blur-3xl rounded-full" />
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F1724] text-center">
-            Dịch vụ nổi bật
+      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16">
+        {/* LEFT HERO */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-5"
+        >
+          <span className="text-sm font-semibold text-blue-600 tracking-wider">
+            OUR AREAS OF EXPERTISE
+          </span>
+
+          <h2 className="mt-6 text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+            Dịch vụ & Giải pháp <br /> Công nghệ
           </h2>
 
-          <p className="text-center text-[#6B7280] max-w-2xl">
-            Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp
+          <p className="mt-8 text-lg text-slate-600 max-w-md leading-relaxed">
+            Chúng tôi cung cấp các giải pháp công nghệ toàn diện, giúp doanh
+            nghiệp tăng tốc chuyển đổi số và phát triển bền vững.
           </p>
-        </div>
-
-        <motion.div
-          className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          // reuse same inline variant name (children will follow hidden->show)
-          variants={{
-            hidden: { opacity: 0, y: 18 },
-            show: { opacity: 1, y: 0, transition: { staggerChildren: 0.08 } },
-          }}
-        >
-          {services.map((s, idx) => (
-            <motion.article
-              key={s.title}
-              className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-white/60 p-6"
-              custom={idx}
-              // card variants inline
-              variants={{
-                hidden: { opacity: 0, y: 18, scale: 0.99 },
-                show: (i: number) => ({
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 140,
-                    damping: 20,
-                    delay: i * 0.06,
-                  },
-                }),
-              }}
-              whileHover={{
-                translateY: -6,
-                boxShadow: "0 18px 40px rgba(16,24,40,0.08)",
-              }}
-              role="article"
-              aria-label={s.title}
-            >
-              {/* icon square */}
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1E6EF6] to-[#2BA9FA] grid place-items-center text-white shadow-md">
-                <Image
-                  src={s.icon}
-                  alt={`${s.title} icon`}
-                  width={26}
-                  height={26}
-                  className="object-contain"
-                />
-              </div>
-
-              <h3 className="mt-6 text-[#0F1724] font-semibold text-xl">
-                {s.title}
-              </h3>
-              <p className="mt-2 text-sm text-[#6B7280]">
-                {/* short description optional */}
-              </p>
-
-              <ul className="mt-4 space-y-3 text-sm text-[#374151]">
-                {s.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-3">
-                    <span className="mt-1 inline-flex w-5 h-5 rounded-full bg-white border border-[#2BA9FA] text-[#2BA9FA] items-center justify-center text-xs">
-                      ✓
-                    </span>
-                    <span className="leading-tight">{b}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-6">
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-[#FF6B2D] font-medium hover:underline"
-                  aria-label={`Tìm hiểu thêm về ${s.title}`}
-                >
-                  Tìm hiểu thêm
-                  <svg
-                    className="w-4 h-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden
-                  >
-                    <path
-                      d="M5 12h14M13 5l7 7-7 7"
-                      stroke="#FF6B2D"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </motion.article>
-          ))}
         </motion.div>
-      </Container>
-    </motion.section>
+
+        {/* RIGHT SERVICES */}
+        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {services.map((item, index) => (
+            <motion.div
+              key={item.slug}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
+              <div
+                className="
+                    relative h-full rounded-2xl p-8
+                    bg-white
+                    border border-slate-200
+                    transition-all duration-300
+                    group-hover:-translate-y-2
+                    group-hover:shadow-2xl
+                  "
+              >
+                {/* BORDER GRADIENT */}
+                <div
+                  className="
+                    absolute inset-0 rounded-2xl
+                    bg-gradient-to-br from-blue-500 to-cyan-400
+                    opacity-0 group-hover:opacity-100
+                    transition
+                    -z-10 blur-[2px]
+                  "
+                />
+
+                {/* ICON */}
+                <div className="mb-8">
+                  <div
+                    className="
+                      w-12 h-12 rounded-lg
+                      flex items-center justify-center
+                      bg-slate-100
+                      group-hover:bg-blue-600 transition
+                    "
+                  >
+                    <Image
+                      src={item.icon}
+                      alt={item.title}
+                      width={24}
+                      height={24}
+                      className="opacity-70 group-hover:invert transition"
+                    />
+                  </div>
+                </div>
+
+                {/* CONTENT */}
+                <h3 className="text-lg font-semibold text-slate-900 mb-3">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

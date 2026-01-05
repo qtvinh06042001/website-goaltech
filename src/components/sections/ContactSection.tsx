@@ -10,11 +10,12 @@ import { CheckCircle2 } from "lucide-react";
 export function ContactSection() {
   return (
     <section className="relative bg-[#2B7BFF] py-20 overflow-hidden">
-      <div className="absolute inset-0 opacity-20 z-0">
-       <img
-  src="/images/data-wave.gif"
-  className="w-full h-full object-cover opacity-60 translate-y-60"
-/>
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img
+          src="/images/data-wave.gif"
+          alt="data wave"
+          className="w-full h-full object-cover opacity-40 translate-y-60"
+        />
       </div>
 
       <Container className="relative z-10">

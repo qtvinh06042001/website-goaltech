@@ -58,7 +58,7 @@ export function Partners() {
         <div className="flex flex-col items-center gap-4">
           <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
             <Image
-              src="/images/group-user.svg"
+              src="/images/icons/group-user.svg"
               alt="GoalTech"
               width={18}
               height={18}
