@@ -42,7 +42,7 @@ export function ProcessSteps() {
         <div className="flex flex-col items-center gap-4">
           <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
             <Image
-              src="/images/cpu.svg"
+              src="/images/icons/cpu.svg"
               alt="GoalTech"
               width={18}
               height={18}

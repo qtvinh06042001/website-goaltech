@@ -1,7 +1,5 @@
 import {
   CompanyIntro,
-  MarketingStats,
-  AboutFeatures,
   ServicesHighlights,
   ProjectsShowcase,
   Partners,
@@ -13,8 +11,6 @@ export default function LandingPage() {
   return (
     <div>
       <CompanyIntro />
-      <MarketingStats />
-      <AboutFeatures />
       <ServicesHighlights />
       <ProcessSteps />
       <Partners />
