@@ -141,7 +141,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6 md:gap-8 lg:gap-10 xl:gap-14 relative">
+        <nav className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-6 md:gap-8 lg:gap-10 xl:gap-14">
           {navItems.map((item, index) => (
             <div key={index} className="relative">
               {item.hasDropdown ? (
@@ -204,7 +204,7 @@ export function Header() {
         </nav>
 
         {/* search + language selector */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-4 ml-auto">
           <button className="p-2 rounded-full hover:bg-slate-100">
             <Search className="h-5 w-5 text-[#334155]" />
           </button>
@@ -257,8 +257,6 @@ export function Header() {
             )}
           </div>
         </div>
-
-        <div className="hidden lg:block h-6 w-px bg-slate-300" />
 
         {/* CTA Desktop */}
         <div className="hidden lg:block">
