@@ -1,140 +1,280 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    slug: "it-modernization",
-    title: "IT Assessment & Modernization",
-    desc: "Evaluate, optimize and modernize legacy IT systems.",
-    icon: "/icons/modernization.svg",
+    key: 1,
+    title: "Tư vấn triển khai chuyển đổi số toàn diện",
+    image: "/images/digital.png",
+    desc: "Đồng hành cùng doanh nghiệp trong hành trình số hóa - từ đánh giá hiện trạng, xây dựng lộ trình, đến triển khai công nghệ AI vào quy trình thực tế , giúp tối ưu vận hành và gia tăng năng suất",
   },
   {
-    slug: "software-development",
-    title: "Custom Software Development",
-    desc: "Enterprise-grade software tailored to business needs.",
-    icon: "/icons/software.svg",
+    key: 2,
+    title: "Hạ tầng số & giải pháp Cloud linh hoạt",
+    image: "/images/cloud.png",
+    desc: "Thiế t kế kiến trúc cloud tối ưu với mô hình kết hợp đám mây công cộng và riêng tư, đảm bảo an toàn dữ liệu, giảm chi phí cơ sở hạ tầng và tăng khả năng co giãn theo quy mô",
   },
   {
-    slug: "ai-rnd",
-    title: "AI & New Technology R&D",
-    desc: "Research and apply AI, Data, Blockchain technologies.",
-    icon: "/icons/ai.svg",
+    key: 3,
+    title: "Hệ sinh thái AI thông minh & Tự động hóa",
+    image: "/images/ai.png",
+    desc: "Phát triển giải pháp trí tuệ nhân tạo tích hợp - Chatbot đa nền tảng, AI Agent xử lý nghiệp vụ, và hệ thống phân tích thông minh - giúp doanh nghiệp tương tác liên tục và giảm thiểu chi phí nhân sự",
   },
   {
-    slug: "odc",
-    title: "Offshore Development Center",
-    desc: "Build and scale dedicated offshore engineering teams.",
-    icon: "/icons/odc.svg",
+    key: 4,
+    title: "Quản trị dữ liệu & phân tích kinh doanh",
+    image: "/images/data.png",
+    desc: "Chuyển đổi dữ liệu thô thành insight có giá trị thông qua hệ thống tích hợp đa nguồn, dashboard tổng hợp thông minh, và công cụ phân tích chuyên sâu để hỗ trợ định hướng chiến lược",
+  },
+  {
+    key: 5,
+    title: "Nền tảng số & Ứng dụng theo yêu cầu",
+    image: "/images/platform.png",
+    desc: "Xây dựng giải pháp nền tảng số chuyên sâu cho từng mô hình kinh doanh - marketplace, booking platform, enterprise system - với kiến trúc linh hoạt và khả năng tùy biến cao theo nhu cầu phát triển",
   },
 ];
 
 export function ServicesHighlights() {
+  const [active, setActive] = useState(0);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isAnimating = useRef(false);
+  const isLocked = useRef(false);
+  const hasInteracted = useRef(false);
+  const touchStartY = useRef(0);
+
+  /* =========================
+      DISABLE SCROLL RESTORE
+  ========================= */
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  /* =========================
+      CLEANUP BODY LOCK
+  ========================= */
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  /* =========================
+      BODY SCROLL LOCK
+  ========================= */
+  const lockBodyScroll = () => {
+    document.body.style.overflow = "hidden";
+  };
+
+  const unlockBodyScroll = () => {
+    document.body.style.overflow = "";
+  };
+
+  /* =========================
+      SNAP TO CENTER
+  ========================= */
+  const snapToCenter = () => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const offset =
+      rect.top + window.scrollY - (window.innerHeight / 2 - rect.height / 2);
+
+    window.scrollTo({ top: offset, behavior: "smooth" });
+  };
+
+  /* =========================
+      OBSERVE SECTION
+  ========================= */
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isLocked.current = entry.intersectionRatio > 0.55;
+      },
+      { threshold: [0.5, 0.6, 0.7] }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  /* =========================
+      WHEEL CONTROL
+  ========================= */
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      if (!isLocked.current || isAnimating.current) return;
+
+      const threshold = 60;
+      if (Math.abs(e.deltaY) < threshold) return;
+
+      // cho phép thoát section
+      if (e.deltaY < 0 && active === 0) return;
+      if (e.deltaY > 0 && active === services.length - 1) return;
+
+      e.preventDefault();
+      hasInteracted.current = true;
+
+      if (e.deltaY > 0) setActive((p) => p + 1);
+      else setActive((p) => p - 1);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [active]);
+
+  /* =========================
+      TOUCH SUPPORT
+  ========================= */
+  useEffect(() => {
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!isLocked.current || isAnimating.current) return;
+
+      const delta = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(delta) < 50) return;
+
+      if (delta < 0 && active === 0) return;
+      if (delta > 0 && active === services.length - 1) return;
+
+      hasInteracted.current = true;
+
+      if (delta > 0) setActive((p) => p + 1);
+      else setActive((p) => p - 1);
+    };
+
+    window.addEventListener("touchstart", onTouchStart);
+    window.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [active]);
+
   return (
-    <section className="relative py-32 bg-[#F7FAFF] overflow-hidden">
-      {/* BACKGROUND WAVE / SHAPE */}
-      <svg
-        className="absolute top-0 left-0 w-full h-[500px] opacity-30"
-        viewBox="0 0 1440 400"
-        fill="none"
-      >
-        <path
-          d="M0,160 C240,260 480,60 720,120 960,180 1200,140 1440,80"
-          stroke="#3B82F6"
-          strokeWidth="1"
-          fill="none"
-        />
-      </svg>
+    <section
+      ref={sectionRef}
+      className="relative bg-white pt-32 md:pt-58 pb-24 md:pb-32 overflow-hidden"
+    >
+      {/* ===== HEADER ===== */}
+      <div className="text-center mt-6 md:mt-12 mb-12 md:mb-20 px-6 md:px-0">
+        <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
+          <Image
+            src="/images/icons/cpu.svg"
+            alt="GoalTech"
+            width={18}
+            height={18}
+          />
+          <span>Dịch vụ & Giải pháp</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
+          <span className="text-blue-600">Dịch vụ</span> & Giải pháp
+        </h2>
+        <p className="text-slate-500 mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
+          Giải pháp công nghệ toàn diện cho doanh nghiệp hiện đại
+        </p>
+      </div>
 
-      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-200/40 blur-3xl rounded-full" />
+      {/* ===== DANH SÁCH DỊCH VỤ ===== */}
+      <div className="flex justify-center flex-wrap gap-4 md:gap-6 mb-12 px-6 md:px-0">
+        {services.map((service, idx) => (
+          <div
+            key={service.key}
+            onClick={() => setActive(idx)}
+            className={`flex-none w-56 md:w-48 flex flex-col items-center text-left cursor-pointer transition
+        ${
+          idx === active
+            ? "text-blue-600 font-semibold"
+            : "text-slate-600 hover:text-blue-500"
+        }`}
+          >
+            <span className="font-bold text-lg mb-2">0{service.key}</span>
+            <span className="text-sm sm:text-base md:text-sm">
+              {service.title}
+            </span>
+          </div>
+        ))}
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16">
-        {/* LEFT HERO */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-5"
-        >
-          <span className="text-sm font-semibold text-blue-600 tracking-wider">
-            OUR AREAS OF EXPERTISE
-          </span>
-
-          <h2 className="mt-6 text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-            Dịch vụ & Giải pháp <br /> Công nghệ
-          </h2>
-
-          <p className="mt-8 text-lg text-slate-600 max-w-md leading-relaxed">
-            Chúng tôi cung cấp các giải pháp công nghệ toàn diện, giúp doanh
-            nghiệp tăng tốc chuyển đổi số và phát triển bền vững.
-          </p>
-        </motion.div>
-
-        {/* RIGHT SERVICES */}
-        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {services.map((item, index) => (
+      {/* ===== CONTENT ===== */}
+      <div className="max-w-7xl mx-auto px-6 md:px-0 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+        {/* LEFT TEXT */}
+        <div className="md:col-span-6 md:sticky top-32 self-start">
+          <AnimatePresence mode="wait">
             <motion.div
-              key={item.slug}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              key={active}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{
+                duration: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              onAnimationStart={() => {
+                if (!hasInteracted.current) return;
+                isAnimating.current = true;
+                lockBodyScroll();
+                snapToCenter();
+              }}
+              onAnimationComplete={() => {
+                isAnimating.current = false;
+                unlockBodyScroll();
+              }}
             >
-              <div
-                className="
-                    relative h-full rounded-2xl p-8
-                    bg-white
-                    border border-slate-200
-                    transition-all duration-300
-                    group-hover:-translate-y-2
-                    group-hover:shadow-2xl
-                  "
-              >
-                {/* BORDER GRADIENT */}
-                <div
-                  className="
-                    absolute inset-0 rounded-2xl
-                    bg-gradient-to-br from-blue-500 to-cyan-400
-                    opacity-0 group-hover:opacity-100
-                    transition
-                    -z-10 blur-[2px]
-                  "
-                />
+              <p className="text-blue-600 text-xl sm:text-3xl font-semibold mb-4">
+                0{services[active].key}
+              </p>
 
-                {/* ICON */}
-                <div className="mb-8">
-                  <div
-                    className="
-                      w-12 h-12 rounded-lg
-                      flex items-center justify-center
-                      bg-slate-100
-                      group-hover:bg-blue-600 transition
-                    "
-                  >
-                    <Image
-                      src={item.icon}
-                      alt={item.title}
-                      width={24}
-                      height={24}
-                      className="opacity-70 group-hover:invert transition"
-                    />
-                  </div>
-                </div>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-[#0B2B6B]">
+                {services[active].title}
+              </h3>
 
-                {/* CONTENT */}
-                <h3 className="text-lg font-semibold text-slate-900 mb-3">
-                  {item.title}
-                </h3>
+              <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-8 max-w-xl">
+                {services[active].desc}
+              </p>
 
-                <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                  {item.desc}
-                </p>
-              </div>
+              <Button className="px-6 py-6 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
+                Xem chi tiết
+              </Button>
             </motion.div>
-          ))}
+          </AnimatePresence>
+        </div>
+
+        {/* RIGHT IMAGE */}
+        <div className="md:col-span-6 relative h-[320px] sm:h-[400px] md:h-[520px] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={services[active].image}
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <Image
+                src={services[active].image}
+                alt={services[active].title}
+                width={650}
+                height={500}
+                className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
+                priority
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
