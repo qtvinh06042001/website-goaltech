@@ -13,9 +13,9 @@ export function CompanyIntro() {
       <section className="relative min-h-[120vh] w-full flex flex-col items-center justify-center overflow-hidden bg-[#f8fbff] px-4 pt-20">
         <div className="absolute bottom-1.5 inset-0 z-0">
           <img
-  src="/images/data-wave.gif"
-  className="w-full h-full object-cover opacity-60 translate-y-60"
-/>
+            src="/images/data-wave.gif"
+            className="w-full h-full object-cover opacity-60 translate-y-60"
+          />
           {/* Lớp phủ gradient nhẹ để hòa quyện video vào nền trắng */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#bbd5f7] via-transparent to-[#F8FBFF]" />
         </div>
@@ -28,7 +28,7 @@ export function CompanyIntro() {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center gap-4"
           >
-            <div className="inline-flex items-center gap-2 bg-white/90 text-[#007AFF] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-white/90 text-[#007AFF] border border-[#DDEBFF] px-3 py-1 rounded-md text-sm shadow-sm">
               <Image
                 src="/images/icons/buildings.svg"
                 alt="GoalTech"
