@@ -2,8 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 
 const services = [
   {
@@ -40,82 +46,69 @@ const services = [
 
 export function ServicesHighlights() {
   const [active, setActive] = useState(0);
-
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
   const isLocked = useRef(false);
-  const hasInteracted = useRef(false);
   const touchStartY = useRef(0);
+  const hasInteracted = useRef(false);
 
-  /* =========================
-      DISABLE SCROLL RESTORE
-  ========================= */
+  // Parallax image
+  const scrollY = useMotionValue(0);
+  const bgOffset = useTransform(scrollY, [0, 500], [0, -80]);
+
+  // Detect mobile
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  /* =========================
-      CLEANUP BODY LOCK
-  ========================= */
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
-
-  /* =========================
-      BODY SCROLL LOCK
-  ========================= */
-  const lockBodyScroll = () => {
-    document.body.style.overflow = "hidden";
-  };
-
-  const unlockBodyScroll = () => {
-    document.body.style.overflow = "";
-  };
-
-  /* =========================
-      SNAP TO CENTER
-  ========================= */
+  // Snap desktop active content vào giữa viewport
   const snapToCenter = () => {
     const el = sectionRef.current;
     if (!el) return;
 
+    // Lấy bounding của section
     const rect = el.getBoundingClientRect();
+
+    // Tính offset để active content nằm giữa màn hình
     const offset =
       rect.top + window.scrollY - (window.innerHeight / 2 - rect.height / 2);
 
     window.scrollTo({ top: offset, behavior: "smooth" });
   };
 
-  /* =========================
-      OBSERVE SECTION
-  ========================= */
+  // Only for desktop
   useEffect(() => {
+    if (isMobile) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        isLocked.current = entry.intersectionRatio > 0.55;
+        const threshold = 0.55;
+        isLocked.current = entry.intersectionRatio > threshold;
       },
       { threshold: [0.5, 0.6, 0.7] }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
 
-  /* =========================
-      WHEEL CONTROL
-  ========================= */
+  const lockBodyScroll = () => (document.body.style.overflow = "hidden");
+  const unlockBodyScroll = () => (document.body.style.overflow = "");
+
+  // Desktop wheel
   useEffect(() => {
+    if (isMobile) return;
+
     const onWheel = (e: WheelEvent) => {
       if (!isLocked.current || isAnimating.current) return;
 
       const threshold = 60;
       if (Math.abs(e.deltaY) < threshold) return;
 
-      // cho phép thoát section
       if (e.deltaY < 0 && active === 0) return;
       if (e.deltaY > 0 && active === services.length - 1) return;
 
@@ -125,49 +118,46 @@ export function ServicesHighlights() {
       if (e.deltaY > 0) setActive((p) => p + 1);
       else setActive((p) => p - 1);
     };
-
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [active]);
+  }, [active, isMobile]);
 
-  /* =========================
-      TOUCH SUPPORT
-  ========================= */
+  // Desktop touch swipe
   useEffect(() => {
+    if (isMobile) return;
+
     const onTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
     };
-
     const onTouchEnd = (e: TouchEvent) => {
       if (!isLocked.current || isAnimating.current) return;
 
       const delta = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(delta) < 50) return;
+      if (Math.abs(delta) < 30) return;
 
-      if (delta < 0 && active === 0) return;
-      if (delta > 0 && active === services.length - 1) return;
-
-      hasInteracted.current = true;
-
-      if (delta > 0) setActive((p) => p + 1);
-      else setActive((p) => p - 1);
+      if (delta > 0 && active < services.length - 1) setActive((p) => p + 1);
+      else if (delta < 0 && active > 0) setActive((p) => p - 1);
     };
-
-    window.addEventListener("touchstart", onTouchStart);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
-
     return () => {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [active]);
+  }, [active, isMobile]);
+
+  // Update URL hash only desktop
+  useEffect(() => {
+    if (!isMobile)
+      window.history.replaceState(null, "", `#${services[active].key}`);
+  }, [active, isMobile]);
 
   return (
     <section
       ref={sectionRef}
       className="relative bg-white pt-32 md:pt-58 pb-24 md:pb-32 overflow-hidden"
     >
-      {/* ===== HEADER ===== */}
+      {/* HEADER */}
       <div className="text-center mt-6 md:mt-12 mb-12 md:mb-20 px-6 md:px-0">
         <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
           <Image
@@ -186,96 +176,119 @@ export function ServicesHighlights() {
         </p>
       </div>
 
-      {/* ===== DANH SÁCH DỊCH VỤ ===== */}
-      <div className="flex justify-center flex-wrap gap-4 md:gap-6 mb-12 px-6 md:px-0">
-        {services.map((service, idx) => (
-          <div
-            key={service.key}
-            onClick={() => setActive(idx)}
-            className={`flex-none w-56 md:w-48 flex flex-col items-center text-left cursor-pointer transition
-        ${
-          idx === active
-            ? "text-blue-600 font-semibold"
-            : "text-slate-600 hover:text-blue-500"
-        }`}
-          >
-            <span className="font-bold text-lg mb-2">0{service.key}</span>
-            <span className="text-sm sm:text-base md:text-sm">
-              {service.title}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* ===== CONTENT ===== */}
-      <div className="max-w-7xl mx-auto px-6 md:px-0 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
-        {/* LEFT TEXT */}
-        <div className="md:col-span-6 md:sticky top-32 self-start">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -24 }}
-              transition={{
-                duration: 0.4,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              onAnimationStart={() => {
-                if (!hasInteracted.current) return;
-                isAnimating.current = true;
-                lockBodyScroll();
-                snapToCenter();
-              }}
-              onAnimationComplete={() => {
-                isAnimating.current = false;
-                unlockBodyScroll();
-              }}
+      {/* DESKTOP: LIST SERVICE STICKY */}
+      {!isMobile && (
+        <div className="services-list sticky top-24 z-20 bg-white px-6 md:px-0 flex justify-center flex-wrap gap-4 md:gap-6 mb-12">
+          {services.map((service, idx) => (
+            <div
+              key={service.key}
+              onClick={() => setActive(idx)}
+              className={clsx(
+                "flex-none w-56 md:w-48 flex flex-col items-center text-left cursor-pointer transition",
+                idx === active
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-600 hover:text-blue-500"
+              )}
             >
+              <span className="font-bold text-lg mb-2">0{service.key}</span>
+              <span className="text-sm sm:text-base md:text-sm">
+                {service.title}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* CONTENT */}
+      <div className="content-container max-w-7xl mx-auto px-6 md:px-0 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+        {isMobile ? (
+          services.map((service) => (
+            <div key={service.key} className="mb-12">
               <p className="text-blue-600 text-xl sm:text-3xl font-semibold mb-4">
-                0{services[active].key}
+                0{service.key}
               </p>
-
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-[#0B2B6B]">
-                {services[active].title}
+                {service.title}
               </h3>
-
-              <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-8 max-w-xl">
-                {services[active].desc}
+              <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-6 max-w-xl">
+                {service.desc}
               </p>
-
-              <Button className="px-6 py-6 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
+              <div className="relative h-[240px] sm:h-[320px] md:h-[520px] flex items-center justify-center mb-6">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  width={650}
+                  height={500}
+                  className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
+                />
+              </div>
+              <Button className="px-6 py-4 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
                 Xem chi tiết
               </Button>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+          ))
+        ) : (
+          <>
+            {/* Desktop only active content */}
+            <div className="md:col-span-6 md:sticky top-32 self-start">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -24, scale: 0.97 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  onAnimationStart={() => {
+                    if (!hasInteracted.current) return;
+                    isAnimating.current = true;
+                    lockBodyScroll();
+                    snapToCenter();
+                  }}
+                  onAnimationComplete={() => {
+                    isAnimating.current = false;
+                    unlockBodyScroll();
+                  }}
+                >
+                  <p className="text-blue-600 text-xl sm:text-3xl font-semibold mb-4">
+                    0{services[active].key}
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-[#0B2B6B]">
+                    {services[active].title}
+                  </h3>
+                  <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-8 max-w-xl">
+                    {services[active].desc}
+                  </p>
+                  <Button className="px-6 py-6 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
+                    Xem chi tiết
+                  </Button>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="md:col-span-6 relative h-[320px] sm:h-[400px] md:h-[520px] flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={services[active].image}
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{
-                duration: 0.5,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <Image
-                src={services[active].image}
-                alt={services[active].title}
-                width={650}
-                height={500}
-                className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
-                priority
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            <div className="md:col-span-6 relative h-[320px] sm:h-[400px] md:h-[520px] flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={services[active].image}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ y: bgOffset }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <Image
+                    src={services[active].image}
+                    alt={services[active].title}
+                    width={650}
+                    height={500}
+                    className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
