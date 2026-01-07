@@ -21,7 +21,7 @@ export function ProcessSteps() {
   // try load steps from locales
   const i18nSteps = t("process.steps", { returnObjects: true }) as
     | { title?: string }[]
-    | null;
+    | [];
 
   // fallback defaults (still use t() so translations can override)
   const defaultTitles = [
@@ -117,7 +117,7 @@ export function ProcessSteps() {
                   </motion.div>
 
                   {/* CONNECTOR DỌC */}
-  
+
                   <motion.div
                     style={{
                       originY: 0,

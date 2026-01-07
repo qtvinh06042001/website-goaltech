@@ -133,17 +133,15 @@ export function Header() {
                       setActiveDropdown(activeDropdown === index ? null : index)
                     }
                     className={`flex items-center gap-2 text-[16px] leading-6 whitespace-nowrap
-              ${
-                isActive(item.href)
-                  ? "font-semibold text-[#112639] border-[#112639] pb-2"
-                  : "font-normal text-[#112639] hover:text-[#1851C1]"
-              }`}
+              ${isActive(item.href)
+                        ? "font-semibold text-[#112639] border-[#112639] pb-2"
+                        : "font-normal text-[#112639] hover:text-[#1851C1]"
+                      }`}
                   >
                     {item.label}
                     <ChevronDown
-                      className={`h-5 w-5 transition-transform ${
-                        activeDropdown === index ? "rotate-180" : ""
-                      }`}
+                      className={`h-5 w-5 transition-transform ${activeDropdown === index ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -171,11 +169,10 @@ export function Header() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center gap-2 text-[16px] leading-6 whitespace-nowrap
-            ${
-              isActive(item.href)
-                ? "font-semibold text-[#112639] border-b-2 border-[#112639] pb-2"
-                : "font-normal text-[#112639] hover:text-[#1851C1]"
-            }`}
+            ${isActive(item.href)
+                      ? "font-semibold text-[#112639] border-b-2 border-[#112639] pb-2"
+                      : "font-normal text-[#112639] hover:text-[#1851C1]"
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -260,11 +257,10 @@ export function Header() {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`block py-2 px-2 rounded-md ${
-                      isActive(item.href)
-                        ? "font-semibold text-[#112639]"
-                        : "font-normal text-[#112639]"
-                    }`}
+                    className={`block py-2 px-2 rounded-md ${isActive(item.href)
+                      ? "font-semibold text-[#112639]"
+                      : "font-normal text-[#112639]"
+                      }`}
                   >
                     {item.label}
                   </Link>
