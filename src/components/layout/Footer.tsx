@@ -36,7 +36,7 @@ export function Footer() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
           {/* LEFT: logo + contact + social */}
           <div className="w-full lg:w-[350px] flex flex-col gap-6">
-            <Logo className="h-12 w-auto" />
+            <Logo className="h-12 cursor-pointer" />
             <div className="flex items-center gap-3">
               <span>
                 Đối tác đồng hành cùng bạn xây dựng tương lai số. Với công nghệ

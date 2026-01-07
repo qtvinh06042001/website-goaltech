@@ -221,9 +221,6 @@ export function Header() {
                 height={14}
                 className="rounded-sm"
               />
-              <span className="hidden md:inline text-sm text-[#0F1724]">
-                {lang.label}
-              </span>
               <ChevronDown
                 className={`h-4 w-4 transition-transform ${
                   langOpen ? "rotate-180" : ""
