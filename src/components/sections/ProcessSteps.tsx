@@ -81,20 +81,40 @@ export function ProcessSteps() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.15 }}
+                  whileHover={{ y: -40 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   className="relative flex flex-col items-center text-center"
                 >
                   {/* ICON */}
-                  <div className="w-20 h-20 rounded-full border-2 border-blue-500 bg-white flex items-center justify-center text-blue-500 z-10">
-                    <Icon size={32} strokeWidth={1.5} />
-                  </div>
+
+                  <motion.div
+                    whileHover={{
+                      scale: 1.3,
+                      boxShadow: "0 12px 28px rgba(37, 99, 235, 0.25)",
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="w-20 h-20 rounded-full border-2 border-blue-500 bg-white flex items-center justify-center text-blue-500 z-10"
+                  >
+                    <motion.div
+                      whileHover={{ rotate: 12 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 18,
+                      }}
+                    >
+                      <Icon size={32} strokeWidth={1.5} />
+                    </motion.div>
+                  </motion.div>
 
                   {/* CONNECTOR DỌC */}
-                  <div
-                    className="w-[1.5px] bg-blue-400 hidden md:block"
+  
+                  <motion.div
                     style={{
+                      originY: 0,
                       height: "calc(var(--timeline-y) - 80px)",
                     }}
+                    className="w-[1.5px] bg-blue-400 hidden md:block"
                   />
 
                   {/* DOT TRÊN TIMELINE */}
