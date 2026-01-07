@@ -6,62 +6,71 @@ import { CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 const products = [
   {
     key: "goalme",
-    label: "GoalMe",
     logo: "/images/logo-goalme.png",
-    title: "GoalMe - Ứng dụng thể thao",
-    description:
-      "Ứng dụng được phát triển với mục tiêu kết nối người chơi, huấn luyện viên...",
-    features: [
-      "Kết nối người chơi thể thao",
-      "Quản lý đội & lịch thi đấu",
-      "Ứng dụng công nghệ AI",
-      "Hệ thống quản lý chuyên nghiệp",
-    ],
     image: "/images/goalme_app.png",
-    cta: "Xem chi tiết",
   },
   {
     key: "goalmanager",
-    label: "GoalManager",
     logo: "/images/logo-goalme.png",
-    title: "GoalManager - Quản lý",
-    description: "Nền tảng quản lý toàn diện dành cho CLB, trung tâm thể thao.",
-    features: ["Quản lý hội viên", "Theo dõi doanh thu", "Báo cáo thông minh"],
     image: "/images/goalme_app.png",
-    cta: "Khám phá",
   },
 ];
 
 export function ProjectsShowcase() {
+  const { t } = useTranslation("home");
   const [active, setActive] = useState(products[0].key);
-  const product = products.find((p) => p.key === active)!;
+  const productMeta = products.find((p) => p.key === active)!;
+
+  const product = {
+    label: t(`projects.${productMeta.key}.label`, {
+      defaultValue: productMeta.key,
+    }),
+    title: t(`projects.${productMeta.key}.title`),
+    description: t(`projects.${productMeta.key}.description`),
+    features: t(`projects.${productMeta.key}.features`, {
+      returnObjects: true,
+    }) as string[],
+    cta: t(`projects.${productMeta.key}.cta`),
+    logo: productMeta.logo,
+    image: productMeta.image,
+    key: productMeta.key,
+  };
+
   return (
     <section className="py-20">
       <Container>
         <div className="flex flex-col items-center gap-4">
-          <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-full text-sm shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-md text-sm shadow-sm">
             <Image
               src="/images/icons/head.svg"
-              alt="GoalTech"
+              alt={t("projects.badge", "Sản Phẩm")}
               width={18}
               height={18}
               className="w-4.5 h-4.5"
             />
-            <span>Sản Phẩm</span>
+            <span>{t("projects.badge", "Sản Phẩm")}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F1724] text-center">
-            Sản Phẩm <span className="text-blue-600">Nổi Bật</span>
+            {t("projects.titlePart1", "Sản phẩm")}{" "}
+            <span className="text-blue-600">
+              {t("projects.titlePart2", "Nổi Bật")}
+            </span>
           </h2>
 
           <p className="text-center text-[#6B7280] max-w-2xl">
-            Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp
+            {t(
+              "projects.subtitle",
+              "Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp"
+            )}
           </p>
         </div>
+
         <div className="flex justify-center gap-4 mb-16">
           {products.map((p) => (
             <button
@@ -74,10 +83,11 @@ export function ProjectsShowcase() {
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              {p.label}
+              {t(`projects.${p.key}.label`, p.key)}
             </button>
           ))}
         </div>
+
         {/* CONTENT */}
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-6">
           {/* LEFT */}
@@ -104,7 +114,7 @@ export function ProjectsShowcase() {
               <p className="text-slate-600 mb-6">{product.description}</p>
 
               <ul className="space-y-3 mb-8">
-                {product.features.map((f, i) => (
+                {product.features?.map((f, i) => (
                   <li key={i} className="flex gap-3 text-slate-700">
                     <CheckCircle2 className="text-blue-600 w-5 h-5" />
                     {f}
@@ -130,7 +140,7 @@ export function ProjectsShowcase() {
             >
               <Image
                 src={product.image}
-                alt=""
+                alt={product.title}
                 width={420}
                 height={600}
                 className="drop-shadow-2xl"

@@ -1,11 +1,13 @@
 {
-  "home": "Home",
-  "product": "Product",
-  "service": "Service",
-  "digital": "Digital Transformation",
-  "project": "Project",
-  "language": "Language",
-  "vietnamese": "Vietnamese",
-  "english": "English",
-  "contactnow": "Contact now"
+    "home": "Home",
+    "product": "Product",
+    "service": "Service",
+    "digital": "Digital Transformation",
+    "project": "Project",
+    "language": {
+        "label": "Language",
+        "vietnamese": "Vietnamese",
+        "english": "English"
+    },
+    "contactnow": "Contact now"
 }

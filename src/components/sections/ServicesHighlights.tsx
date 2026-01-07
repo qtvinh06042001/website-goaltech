@@ -1,141 +1,350 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import { Button } from "@/components/ui/button";
+import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
-const services = [
-  {
-    slug: "it-modernization",
-    title: "IT Assessment & Modernization",
-    desc: "Evaluate, optimize and modernize legacy IT systems.",
-    icon: "/icons/modernization.svg",
-  },
-  {
-    slug: "software-development",
-    title: "Custom Software Development",
-    desc: "Enterprise-grade software tailored to business needs.",
-    icon: "/icons/software.svg",
-  },
-  {
-    slug: "ai-rnd",
-    title: "AI & New Technology R&D",
-    desc: "Research and apply AI, Data, Blockchain technologies.",
-    icon: "/icons/ai.svg",
-  },
-  {
-    slug: "odc",
-    title: "Offshore Development Center",
-    desc: "Build and scale dedicated offshore engineering teams.",
-    icon: "/icons/odc.svg",
-  },
-];
+type Service = {
+  key: number;
+  title: string;
+  image: string;
+  desc: string;
+};
 
 export function ServicesHighlights() {
+  const { t } = useTranslation("home");
+
+  // try load array from locales, fallback to inline defaults that also use t() for labels
+  const i18nServices = t("services.items", { returnObjects: true }) as
+    | Service[]
+    | null;
+
+  const defaultServices: Service[] = [
+    {
+      key: 1,
+      title: t(
+        "services.defaults.1.title",
+        "Tư vấn triển khai chuyển đổi số toàn diện"
+      ),
+      image: "/images/digital.png",
+      desc: t(
+        "services.defaults.1.desc",
+        "Đồng hành cùng doanh nghiệp trong hành trình số hóa - từ đánh giá hiện trạng, xây dựng lộ trình, đến triển khai công nghệ AI vào quy trình thực tế, giúp tối ưu vận hành và gia tăng năng suất"
+      ),
+    },
+    {
+      key: 2,
+      title: t(
+        "services.defaults.2.title",
+        "Hạ tầng số & giải pháp Cloud linh hoạt"
+      ),
+      image: "/images/cloud.png",
+      desc: t(
+        "services.defaults.2.desc",
+        "Thiết kế kiến trúc cloud tối ưu với mô hình kết hợp đám mây công cộng và riêng tư, đảm bảo an toàn dữ liệu, giảm chi phí cơ sở hạ tầng và tăng khả năng mở rộng"
+      ),
+    },
+    {
+      key: 3,
+      title: t(
+        "services.defaults.3.title",
+        "Hệ sinh thái AI thông minh & Tự động hóa"
+      ),
+      image: "/images/ai.png",
+      desc: t(
+        "services.defaults.3.desc",
+        "Phát triển giải pháp trí tuệ nhân tạo tích hợp - Chatbot đa nền tảng, AI Agent xử lý nghiệp vụ, và hệ thống phân tích thông minh"
+      ),
+    },
+    {
+      key: 4,
+      title: t(
+        "services.defaults.4.title",
+        "Quản trị dữ liệu & phân tích kinh doanh"
+      ),
+      image: "/images/data.png",
+      desc: t(
+        "services.defaults.4.desc",
+        "Chuyển đổi dữ liệu thô thành insight có giá trị thông qua hệ thống tích hợp đa nguồn và dashboard tổng hợp"
+      ),
+    },
+    {
+      key: 5,
+      title: t(
+        "services.defaults.5.title",
+        "Nền tảng số & Ứng dụng theo yêu cầu"
+      ),
+      image: "/images/platform.png",
+      desc: t(
+        "services.defaults.5.desc",
+        "Xây dựng giải pháp nền tảng số chuyên sâu cho từng mô hình kinh doanh với kiến trúc linh hoạt"
+      ),
+    },
+  ];
+
+  const services: Service[] =
+    Array.isArray(i18nServices) && i18nServices.length
+      ? i18nServices
+      : defaultServices;
+
+  const [active, setActive] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isAnimating = useRef(false);
+  const isLocked = useRef(false);
+  const touchStartY = useRef(0);
+  const hasInteracted = useRef(false);
+
+  // Parallax image
+  const scrollY = useMotionValue(0);
+  const bgOffset = useTransform(scrollY, [0, 500], [0, -80]);
+
+  // Detect mobile
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Snap desktop active content vào giữa viewport
+  const snapToCenter = () => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Lấy bounding của section
+    const rect = el.getBoundingClientRect();
+
+    // Tính offset để active content nằm giữa màn hình
+    const offset =
+      rect.top + window.scrollY - (window.innerHeight / 2 - rect.height / 2);
+
+    window.scrollTo({ top: offset, behavior: "smooth" });
+  };
+
+  // Only for desktop
+  useEffect(() => {
+    if (isMobile) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const threshold = 0.55;
+        isLocked.current = entry.intersectionRatio > threshold;
+      },
+      { threshold: [0.5, 0.6, 0.7] }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  const lockBodyScroll = () => (document.body.style.overflow = "hidden");
+  const unlockBodyScroll = () => (document.body.style.overflow = "");
+
+  // Desktop wheel
+  useEffect(() => {
+    if (isMobile) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (!isLocked.current || isAnimating.current) return;
+
+      const threshold = 60;
+      if (Math.abs(e.deltaY) < threshold) return;
+
+      if (e.deltaY < 0 && active === 0) return;
+      if (e.deltaY > 0 && active === services.length - 1) return;
+
+      e.preventDefault();
+      hasInteracted.current = true;
+
+      if (e.deltaY > 0) setActive((p) => p + 1);
+      else setActive((p) => p - 1);
+    };
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [active, isMobile, services.length]);
+
+  // Desktop touch swipe
+  useEffect(() => {
+    if (isMobile) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!isLocked.current || isAnimating.current) return;
+
+      const delta = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(delta) < 30) return;
+
+      if (delta > 0 && active < services.length - 1) setActive((p) => p + 1);
+      else if (delta < 0 && active > 0) setActive((p) => p - 1);
+    };
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd);
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [active, isMobile, services.length]);
+
+  // Update URL hash only desktop
+  useEffect(() => {
+    if (!isMobile)
+      window.history.replaceState(null, "", `#${services[active].key}`);
+  }, [active, isMobile, services]);
+
   return (
-    <section className="relative py-32 bg-[#F7FAFF] overflow-hidden">
-      {/* BACKGROUND WAVE / SHAPE */}
-      <svg
-        className="absolute top-0 left-0 w-full h-[500px] opacity-30"
-        viewBox="0 0 1440 400"
-        fill="none"
-      >
-        <path
-          d="M0,160 C240,260 480,60 720,120 960,180 1200,140 1440,80"
-          stroke="#3B82F6"
-          strokeWidth="1"
-          fill="none"
-        />
-      </svg>
+    <section
+      ref={sectionRef}
+      className="relative bg-white pt-32 md:pt-58 pb-24 md:pb-32 overflow-hidden"
+    >
+      {/* HEADER */}
+      <div className="text-center mt-6 md:mt-12 mb-12 md:mb-20 px-6 md:px-0">
+        <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-md text-sm shadow-sm">
+          <Image
+            src="/images/icons/cpu.svg"
+            alt="GoalTech"
+            width={18}
+            height={18}
+          />
+          <span>{t("services.badge", "Dịch vụ & Giải pháp")}</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
+          <span className="text-blue-600">
+            {t("services.titlePart1", "Dịch vụ")}
+          </span>{" "}
+          {t("services.titlePart2", "& Giải pháp")}
+        </h2>
+        <p className="text-slate-500 mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
+          {t(
+            "services.subtitle",
+            "Giải pháp công nghệ toàn diện cho doanh nghiệp hiện đại"
+          )}
+        </p>
+      </div>
 
-      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-200/40 blur-3xl rounded-full" />
-
-      <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16">
-        {/* LEFT HERO */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-5"
-        >
-          <span className="text-sm font-semibold text-blue-600 tracking-wider">
-            OUR AREAS OF EXPERTISE
-          </span>
-
-          <h2 className="mt-6 text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-            Dịch vụ & Giải pháp <br /> Công nghệ
-          </h2>
-
-          <p className="mt-8 text-lg text-slate-600 max-w-md leading-relaxed">
-            Chúng tôi cung cấp các giải pháp công nghệ toàn diện, giúp doanh
-            nghiệp tăng tốc chuyển đổi số và phát triển bền vững.
-          </p>
-        </motion.div>
-
-        {/* RIGHT SERVICES */}
-        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {services.map((item, index) => (
-            <motion.div
-              key={item.slug}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+      {/* DESKTOP: LIST SERVICE STICKY */}
+      {!isMobile && (
+        <div className="services-list sticky top-24 z-20 bg-white px-6 md:px-0 flex justify-center flex-wrap gap-4 md:gap-6 mb-12">
+          {services.map((service, idx) => (
+            <div
+              key={service.key}
+              onClick={() => setActive(idx)}
+              className={clsx(
+                "flex-none w-56 md:w-48 flex flex-col items-center text-left cursor-pointer transition",
+                idx === active
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-600 hover:text-blue-500"
+              )}
             >
-              <div
-                className="
-                    relative h-full rounded-2xl p-8
-                    bg-white
-                    border border-slate-200
-                    transition-all duration-300
-                    group-hover:-translate-y-2
-                    group-hover:shadow-2xl
-                  "
-              >
-                {/* BORDER GRADIENT */}
-                <div
-                  className="
-                    absolute inset-0 rounded-2xl
-                    bg-gradient-to-br from-blue-500 to-cyan-400
-                    opacity-0 group-hover:opacity-100
-                    transition
-                    -z-10 blur-[2px]
-                  "
-                />
-
-                {/* ICON */}
-                <div className="mb-8">
-                  <div
-                    className="
-                      w-12 h-12 rounded-lg
-                      flex items-center justify-center
-                      bg-slate-100
-                      group-hover:bg-blue-600 transition
-                    "
-                  >
-                    <Image
-                      src={item.icon}
-                      alt={item.title}
-                      width={24}
-                      height={24}
-                      className="opacity-70 group-hover:invert transition"
-                    />
-                  </div>
-                </div>
-
-                {/* CONTENT */}
-                <h3 className="text-lg font-semibold text-slate-900 mb-3">
-                  {item.title}
-                </h3>
-
-                <p className="text-sm text-slate-600 leading-relaxed mb-6">
-                  {item.desc}
-                </p>
-              </div>
-            </motion.div>
+              <span className="font-bold text-lg mb-2">0{service.key}</span>
+              <span className="text-sm sm:text-base md:text-sm">
+                {service.title}
+              </span>
+            </div>
           ))}
         </div>
+      )}
+
+      {/* CONTENT */}
+      <div className="content-container max-w-7xl mx-auto px-6 md:px-0 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+        {isMobile ? (
+          services.map((service) => (
+            <div key={service.key} className="mb-12">
+              <p className="text-blue-600 text-xl sm:text-3xl font-semibold mb-4">
+                0{service.key}
+              </p>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-[#0B2B6B]">
+                {service.title}
+              </h3>
+              <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-6 max-w-xl">
+                {service.desc}
+              </p>
+              <div className="relative h-[240px] sm:h-[320px] md:h-[520px] flex items-center justify-center mb-6">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  width={650}
+                  height={500}
+                  className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
+                />
+              </div>
+              <Button className="px-6 py-4 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
+                {t("services.ctaDetails", "Xem chi tiết")}
+              </Button>
+            </div>
+          ))
+        ) : (
+          <>
+            {/* Desktop only active content */}
+            <div className="md:col-span-6 md:sticky top-32 self-start">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -24, scale: 0.97 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  onAnimationStart={() => {
+                    if (!hasInteracted.current) return;
+                    isAnimating.current = true;
+                    lockBodyScroll();
+                    snapToCenter();
+                  }}
+                  onAnimationComplete={() => {
+                    isAnimating.current = false;
+                    unlockBodyScroll();
+                  }}
+                >
+                  <p className="text-blue-600 text-xl sm:text-3xl font-semibold mb-4">
+                    0{services[active].key}
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-[#0B2B6B]">
+                    {services[active].title}
+                  </h3>
+                  <p className="text-base sm:text-lg md:text-lg text-slate-600 mb-8 max-w-xl">
+                    {services[active].desc}
+                  </p>
+                  <Button className="px-6 py-6 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
+                    {t("services.ctaDetails", "Xem chi tiết")}
+                  </Button>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="md:col-span-6 relative h-[320px] sm:h-[400px] md:h-[520px] flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={services[active].image}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ y: bgOffset }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <Image
+                    src={services[active].image}
+                    alt={services[active].title}
+                    width={650}
+                    height={500}
+                    className="w-full max-w-[650px] h-auto object-contain rounded-2xl"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
