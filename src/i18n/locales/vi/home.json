@@ -1,0 +1,145 @@
+{
+    "footer": {
+        "about": {
+            "title": "Giới thiệu",
+            "text": "Đối tác đồng hành cùng bạn xây dựng tương lai số. Với công nghệ AI tiên tiến và đội ngũ chuyên gia tận tâm. GoalTech chuyển hóa mục tiêu của bạn thành hiện thực. Tạo nên giá trị bền vững trong kỷ nguyên chuyển đổi số"
+        },
+        "contact": {
+            "address": "Trụ sở: Đường Phan Đăng Lưu, Tổ 4, Phường An Dương, Thành phố Hải Phòng, Việt Nam",
+            "email": "contect@goaltechco.com",
+            "phone": "0362 069 118"
+        },
+        "cols": [{
+                "title": "Giới thiệu",
+                "links": ["Về chúng tôi", "Đội ngũ nhân viên", "Tin tức", "Liên hệ"]
+            },
+            {
+                "title": "Dịch vụ",
+                "links": [
+                    "Tư vấn triển khai chuyển đổi số toàn diện",
+                    "Hạ tầng số & giải pháp Cloud linh hoạt",
+                    "Quản trị dữ liệu và phân tích kinh doanh"
+                ]
+            },
+            {
+                "title": "Sản phẩm",
+                "links": ["GoalMe", "GoalEdu"]
+            }
+        ]
+    },
+    "company": {
+        "badge": "Về GoalTech",
+        "title": "Đồng Hành Kiến Tạo",
+        "highlight": "Kỷ Nguyên Số",
+        "description": "GoalTech là đối tác đồng hành cùng bạn xây dựng tương lai số. Với công nghệ AI tiên tiến và đội ngũ chuyên gia tận tâm, GoalTech chuyển hóa mục tiêu của bạn thành hiện thực. Tạo nên giá trị bền vững trong kỷ nguyên chuyển đổi số.",
+        "ctaContact": "Liên hệ với chúng tôi",
+        "ctaLearn": "Tìm hiểu thêm"
+    },
+    "services": {
+        "badge": "Dịch vụ & Giải pháp",
+        "titlePart1": "Dịch vụ",
+        "titlePart2": "& Giải pháp",
+        "subtitle": "Giải pháp công nghệ toàn diện cho doanh nghiệp hiện đại",
+        "ctaDetails": "Xem chi tiết",
+        "defaults": {
+            "1": {
+                "title": "Tư vấn triển khai chuyển đổi số toàn diện",
+                "desc": "Đồng hành cùng doanh nghiệp trong hành trình số hóa - từ đánh giá hiện trạng, xây dựng lộ trình, đến triển khai công nghệ AI vào quy trình thực tế, giúp tối ưu vận hành và gia tăng năng suất",
+                "image": "/images/digital.png"
+            },
+            "2": {
+                "title": "Hạ tầng số & giải pháp Cloud linh hoạt",
+                "desc": "Thiết kế kiến trúc cloud tối ưu với mô hình kết hợp đám mây công cộng và riêng tư, đảm bảo an toàn dữ liệu, giảm chi phí cơ sở hạ tầng và tăng khả năng mở rộng",
+                "image": "/images/cloud.png"
+            },
+            "3": {
+                "title": "Hệ sinh thái AI thông minh & Tự động hóa",
+                "desc": "Phát triển giải pháp trí tuệ nhân tạo tích hợp - Chatbot đa nền tảng, AI Agent xử lý nghiệp vụ, và hệ thống phân tích thông minh - giúp doanh nghiệp tương tác liên tục và giảm thiểu chi phí nhân sự",
+                "image": "/images/ai.png"
+            },
+            "4": {
+                "title": "Quản trị dữ liệu & phân tích kinh doanh",
+                "desc": "Chuyển đổi dữ liệu thô thành insight có giá trị thông qua hệ thống tích hợp đa nguồn, dashboard tổng hợp thông minh, và công cụ phân tích chuyên sâu để hỗ trợ định hướng chiến lược",
+                "image": "/images/data.png"
+            },
+            "5": {
+                "title": "Nền tảng số & Ứng dụng theo yêu cầu",
+                "desc": "Xây dựng giải pháp nền tảng số chuyên sâu cho từng mô hình kinh doanh - marketplace, booking platform, enterprise system - với kiến trúc linh hoạt và khả năng tùy biến cao",
+                "image": "/images/platform.png"
+            }
+        }
+    },
+    "process": {
+        "badge": "Quy trình",
+        "titlePart1": "Quy trình Cộng Tác",
+        "titlePart2": "Cùng GoalTech",
+        "subtitle": "Quy trình chuyên nghiệp đảm bảo chất lượng và tiến độ dự án",
+        "defaults": {
+            "1": "Tư vấn khách hàng",
+            "2": "Ký hợp đồng & Lên kế hoạch",
+            "3": "Phát triển sản phẩm/ giải pháp",
+            "4": "Bàn giao & Hướng dẫn sử dụng",
+            "5": "Hỗ trợ lâu dài"
+        }
+    },
+    "partners": {
+        "badge": "Đối tác",
+        "titlePart1": "Đối Tác",
+        "titlePart2": "Của Chúng Tôi",
+        "subtitle": "Được tin tưởng bởi hàng trăm doanh nghiệp từ nhiều lĩnh vực khác nhau"
+    },
+    "projects": {
+        "badge": "Sản Phẩm",
+        "titlePart1": "Sản Phẩm",
+        "titlePart2": "Nổi Bật",
+        "subtitle": "Giải pháp toàn diện cho mọi nhu cầu công nghệ của doanh nghiệp",
+        "goalme": {
+            "label": "GoalMe",
+            "title": "GoalMe - Ứng dụng thể thao",
+            "description": "Ứng dụng được phát triển với mục tiêu kết nối người chơi, huấn luyện viên...",
+            "features": [
+                "Kết nối người chơi thể thao",
+                "Quản lý đội & lịch thi đấu",
+                "Ứng dụng công nghệ AI",
+                "Hệ thống quản lý chuyên nghiệp"
+            ],
+            "cta": "Xem chi tiết"
+        },
+        "goalmanager": {
+            "label": "GoalManager",
+            "title": "GoalManager - Quản lý",
+            "description": "Nền tảng quản lý toàn diện dành cho CLB, trung tâm thể thao.",
+            "features": [
+                "Quản lý hội viên",
+                "Theo dõi doanh thu",
+                "Báo cáo thông minh"
+            ],
+            "cta": "Khám phá"
+        }
+    },
+    "contact": {
+        "titlePart1": "Đồng hành cùng",
+        "titlePart2": "GoalTech",
+        "benefits": [
+            "Tối ưu chi phí với công nghệ hiện đại",
+            "Phương pháp triển khai linh hoạt theo thời gian",
+            "Minh bạch chi phí với cam kết chất lượng"
+        ],
+        "benefit1": "Tối ưu chi phí với công nghệ hiện đại",
+        "benefit2": "Phương pháp triển khai linh hoạt theo thời gian",
+        "benefit3": "Minh bạch chi phí với cam kết chất lượng",
+        "cta": "Tư vấn miễn phí",
+        "form": {
+            "title": "Đăng ký nhận tư vấn miễn phí",
+            "placeholders": {
+                "name": "Họ và tên",
+                "phone": "Số điện thoại",
+                "email": "Email",
+                "area": "Khu vực",
+                "product": "Sản phẩm quan tâm",
+                "message": "Mô tả nhu cầu"
+            },
+            "submit": "Gửi yêu cầu"
+        }
+    }
+}

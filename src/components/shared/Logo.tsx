@@ -6,7 +6,7 @@ export function Logo({ className }: { className?: string }) {
       src="/images/logo.svg"
       alt="GoalTech Logo"
       width={120}
-      height={40}
+      height={48}
       className={className}
       priority
     />

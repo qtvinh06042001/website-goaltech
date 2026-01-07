@@ -2,48 +2,38 @@
 
 import Image from "next/image";
 import { Logo } from "@/components/shared/Logo";
-
-const socialIcons = [
-  { src: "/images/facebook.svg", alt: "Facebook" },
-  { src: "/images/tiktok.svg", alt: "TikTok" },
-  { src: "/images/instagram.svg", alt: "Instagram" },
-  { src: "/images/linkedin.svg", alt: "LinkedIn" },
-];
-
-const cols = [
-  {
-    title: "Giới thiệu",
-    links: ["Về chúng tôi", "Đội ngũ nhân viên", "Tin tức", "Liên hệ"],
-  },
-  {
-    title: "Dịch vụ",
-    links: [
-      "Tư vấn triển khai chuyển đổi số toàn diện",
-      "Hạ tầng số & giải pháp Cloud linh hoạt",
-      "Quản trị dữ liệu và phân tích kinh doanh",
-    ],
-  },
-  {
-    title: "Sản phẩm",
-    links: ["GoalMe", "GoalEdu"],
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+  const { t } = useTranslation("home");
+
+  const socialIcons = [
+    { src: "/images/facebook.svg", key: "facebook" },
+    { src: "/images/tiktok.svg", key: "tiktok" },
+    { src: "/images/instagram.svg", key: "instagram" },
+    { src: "/images/linkedin.svg", key: "linkedin" },
+  ];
+
+  // cols is an array returned from i18n (returnObjects: true)
+  const cols = t("footer.cols", { returnObjects: true }) as {
+    title: string;
+    links: string[];
+  }[];
+
+  const aboutText = t("footer.about.text");
+  const address = t("footer.contact.address");
+  const email = t("footer.contact.email");
+  const phone = t("footer.contact.phone");
+
   return (
     <footer className="w-full bg-white">
       <div className="mx-auto max-w-[1300px] px-6 lg:px-10 py-20">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
           {/* LEFT: logo + contact + social */}
           <div className="w-full lg:w-[350px] flex flex-col gap-6">
-            <Logo className="h-12 w-auto" />
+            <Logo className="h-12 cursor-pointer" />
             <div className="flex items-center gap-3">
-              <span>
-                Đối tác đồng hành cùng bạn xây dựng tương lai số. Với công nghệ
-                AI tiên tiến và đội ngũ chuyên gia tận tâm. GoalTech chuyển hóa
-                mục tiêu của bạn thành hiện thực. Tạo nên giá trị bền vững trong
-                kỷ nguyên chuyển đổi số
-              </span>
+              <span>{aboutText}</span>
               <br />
             </div>
             <div className="text-[#7B849F] text-sm space-y-2">
@@ -54,10 +44,7 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>
-                  Trụ sở: Đường Phan Đăng Lưu, Tổ 4, Phường An Dương, Thành phố
-                  Hải Phòng, Việt Nam
-                </span>
+                <span>{address}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Image
@@ -66,7 +53,7 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>contect@goaltechco.com</span>
+                <span>{email}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Image
@@ -75,17 +62,17 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>0362 069 118</span>
+                <span>{phone}</span>
               </div>
             </div>
 
             <div className="flex items-center gap-3 mt-2">
               {socialIcons.map((icon) => (
                 <div
-                  key={icon.alt}
+                  key={icon.key}
                   className="h-9 w-9 rounded-full bg-[#F3F6FB] flex items-center justify-center"
                 >
-                  <Image src={icon.src} alt={icon.alt} width={20} height={20} />
+                  <Image src={icon.src} alt={icon.key} width={20} height={20} />
                 </div>
               ))}
             </div>

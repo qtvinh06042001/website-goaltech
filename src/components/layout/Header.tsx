@@ -2,31 +2,16 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, Menu, X, Search } from "lucide-react"; // <-- added Search
+import { ChevronDown, Menu, X, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/Logo";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
+import LanguageSwitcher from "../shared/LanguageSwitcher";
 import { motion, animate } from "framer-motion";
 
-const navItems = [
-  { label: "Trang chủ", href: "/" },
-  {
-    label: "Sản phẩm",
-    href: "/#products",
-    hasDropdown: true,
-    submenu: [
-      { label: "GoalMe", href: "/#goalme" },
-      { label: "GoalEdu", href: "/#goaledu" },
-    ],
-  },
-  { label: "Dịch vụ", href: "/#services" },
-  { label: "Chuyển đổi số", href: "/#digital-transformation" },
-
-  { label: "Dự án", href: "/#consultant" },
-];
-
 export function Header() {
+  const { t } = useTranslation();
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -35,15 +20,6 @@ export function Header() {
   const [screenWidth, setScreenWidth] = useState(0);
 
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-
-  // language selector state + ref
-  const langRef = useRef<HTMLDivElement | null>(null);
-  const languages = [
-    { code: "vi", label: "Tiếng Việt", flag: "/images/flags/vi.svg" },
-    { code: "en", label: "English", flag: "/images/flags/en.svg" },
-  ];
-  const [lang, setLang] = useState(languages[0]);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -73,18 +49,6 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileOpen]);
 
-  // close language dropdown on outside click
-  useEffect(() => {
-    if (!langOpen) return;
-    const onDoc = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
-  }, [langOpen]);
-
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -96,6 +60,23 @@ export function Header() {
       onUpdate: (latest) => window.scrollTo(0, latest),
     });
   };
+
+  // build nav items using i18n keys (re-renders on language change)
+  const navItems = [
+    { label: t("home"), href: "/" },
+    {
+      label: t("product"),
+      href: "/#product",
+      hasDropdown: true,
+      submenu: [
+        { label: t("goalme", { defaultValue: "GoalMe" }), href: "/#goalme" },
+        { label: t("goaledu", { defaultValue: "GoalEdu" }), href: "/#goaledu" },
+      ],
+    },
+    { label: t("service"), href: "/#services" },
+    { label: t("digital"), href: "/#digital-transformation" },
+    { label: t("project"), href: "/#consultant" },
+  ];
 
   return (
     <motion.header
@@ -208,60 +189,13 @@ export function Header() {
           <button className="p-2 rounded-full hover:bg-slate-100">
             <Search className="h-5 w-5 text-[#334155]" />
           </button>
-
-          <div className="relative" ref={langRef}>
-            <button
-              onClick={() => setLangOpen((v) => !v)}
-              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-slate-50"
-            >
-              <Image
-                src={lang.flag}
-                alt={lang.code}
-                width={20}
-                height={14}
-                className="rounded-sm"
-              />
-              <span className="hidden md:inline text-sm text-[#0F1724]">
-                {lang.label}
-              </span>
-              <ChevronDown
-                className={`h-4 w-4 transition-transform ${
-                  langOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-
-            {langOpen && (
-              <ul className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow z-50 overflow-hidden">
-                {languages.map((l) => (
-                  <li key={l.code}>
-                    <button
-                      onClick={() => {
-                        setLang(l);
-                        setLangOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 hover:bg-slate-50 flex items-center gap-3"
-                    >
-                      <Image
-                        src={l.flag}
-                        alt={l.code}
-                        width={20}
-                        height={14}
-                        className="rounded-sm"
-                      />
-                      <span className="text-sm">{l.label}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <LanguageSwitcher />
         </div>
 
         {/* CTA Desktop */}
         <div className="hidden lg:block">
           <Button className="h-10 xl:h-12 px-5 xl:px-6 text-white text-sm xl:text-base font-semibold bg-gradient-to-b from-[#FFAF8B] to-[#FF5E15] hover:opacity-90">
-            Liên hệ ngay
+            {t("contactnow")}
           </Button>
         </div>
 
@@ -289,48 +223,7 @@ export function Header() {
             {/* mobile language selector */}
             <li>
               <div className="flex items-center gap-3 px-2">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setLangOpen((v) => !v)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-md bg-white"
-                  >
-                    <Image
-                      src={lang.flag}
-                      alt={lang.code}
-                      width={20}
-                      height={14}
-                      className="rounded-sm"
-                    />
-                    <span className="text-sm">{lang.label}</span>
-                    <ChevronDown
-                      className={`h-4 w-4 ${langOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {langOpen && (
-                    <div className="ml-2 bg-white border rounded-md shadow">
-                      {languages.map((l) => (
-                        <button
-                          key={l.code}
-                          onClick={() => {
-                            setLang(l);
-                            setLangOpen(false);
-                            setMobileOpen(false);
-                          }}
-                          className="flex items-center gap-2 w-full px-3 py-2 hover:bg-slate-50"
-                        >
-                          <Image
-                            src={l.flag}
-                            alt={l.code}
-                            width={20}
-                            height={14}
-                            className="rounded-sm"
-                          />{" "}
-                          {l.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <LanguageSwitcher />
               </div>
             </li>
             {navItems.map((item, index) => (

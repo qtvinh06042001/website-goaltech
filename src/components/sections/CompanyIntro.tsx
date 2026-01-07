@@ -4,9 +4,11 @@ import React from "react";
 import { Header } from "../layout/Header";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { cn } from "@/lib/utils"; // Điều chỉnh đường dẫn tùy dự án của bạn
+import { useTranslation } from "react-i18next";
 
 export function CompanyIntro() {
+  const { t } = useTranslation("home");
+
   return (
     <div>
       <Header />
@@ -36,7 +38,7 @@ export function CompanyIntro() {
                 height={18}
                 className="w-4.5 h-4.5"
               />
-              <span>Về GoalTech</span>
+              <span>{t("company.badge")}</span>
             </div>
           </motion.div>
 
@@ -47,8 +49,8 @@ export function CompanyIntro() {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-6xl font-extrabold text-[#1a1a1a] leading-tight mb-6"
           >
-            Đồng Hành Kiến Tạo{" "}
-            <span className="text-blue-600">Kỷ Nguyên Số</span>
+            {t("company.title")}{" "}
+            <span className="text-blue-600">{t("company.highlight")}</span>
           </motion.h1>
 
           {/* Description */}
@@ -58,10 +60,7 @@ export function CompanyIntro() {
             transition={{ delay: 0.3 }}
             className="text-[#4D4D57] text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10"
           >
-            GoalTech là đối tác đồng hành cùng bạn xây dựng tương lai số. Với
-            công nghệ AI tiên tiến và đội ngũ chuyên gia tận tâm, GoalTech
-            chuyển hóa mục tiêu của bạn thành hiện thực. Tạo nên giá trị bền
-            vững trong kỷ nguyên chuyển đổi số.
+            {t("company.description")}
           </motion.p>
 
           {/* Buttons */}
@@ -72,11 +71,11 @@ export function CompanyIntro() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <button className="px-8 py-3 bg-gradient-to-b from-orange-400 to-orange-500 text-white font-semibold rounded-lg shadow-lg hover:bg-orange-200 transition-all active:scale-95">
-              Liên hệ với chúng tôi
+              {t("company.ctaContact")}
             </button>
 
             <button className="px-8 py-3 bg-white text-blue-600 border-2 font-semibold border-blue-200 rounded-lg hover:bg-blue-50 transition-all active:scale-95 shadow-sm">
-              Tìm hiểu thêm
+              {t("company.ctaLearn")}
             </button>
           </motion.div>
         </div>
