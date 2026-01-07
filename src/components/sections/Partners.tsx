@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, animate } from "framer-motion";
 import { Container } from "@/components/ui/container";
+import { useTranslation } from "react-i18next";
 
 const partners = [
   { src: "/images/partners_logo/lg-cns.svg", alt: "LGCNS" },
@@ -16,6 +17,7 @@ const partners = [
 ];
 
 export function Partners() {
+  const { t } = useTranslation("home");
   const x = useMotionValue(0);
   const animationRef = useRef<ReturnType<typeof animate> | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -39,17 +41,18 @@ export function Partners() {
   };
 
   const pause = () => {
-    animationRef.current?.stop(); // đứng yên
+    animationRef.current?.stop();
   };
 
   const resume = () => {
     animationRef.current?.stop();
-    start(); // chạy tiếp từ vị trí hiện tại
+    start();
   };
 
   useEffect(() => {
     start();
     return () => animationRef.current?.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -59,21 +62,26 @@ export function Partners() {
           <div className="inline-flex items-center gap-2 bg-white/90 text-[#1851C1] border border-[#DDEBFF] px-3 py-1 rounded-md text-sm shadow-sm">
             <Image
               src="/images/icons/group-user.svg"
-              alt="GoalTech"
+              alt={t("partners.badge", "Đối tác")}
               width={18}
               height={18}
               className="w-4.5 h-4.5"
             />
-            <span>Đối tác</span>
+            <span>{t("partners.badge", "Đối tác")}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F1724] text-center">
-            <span className="text-blue-600">Đối Tác </span> Của Chúng Tôi
+            <span className="text-blue-600">
+              {t("partners.titlePart1", "Đối Tác")}
+            </span>{" "}
+            {t("partners.titlePart2", "Của Chúng Tôi")}
           </h2>
 
           <p className="text-center text-[#6B7280] max-w-2xl">
-            Được tin tưởng bởi hàng trăm doanh nghiệp từ nhiều lĩnh vực khác
-            nhau
+            {t(
+              "partners.subtitle",
+              "Được tin tưởng bởi hàng trăm doanh nghiệp từ nhiều lĩnh vực khác nhau"
+            )}
           </p>
         </div>
 

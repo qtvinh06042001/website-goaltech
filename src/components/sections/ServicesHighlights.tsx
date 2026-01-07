@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -10,41 +10,91 @@ import {
 } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
-const services = [
-  {
-    key: 1,
-    title: "Tư vấn triển khai chuyển đổi số toàn diện",
-    image: "/images/digital.png",
-    desc: "Đồng hành cùng doanh nghiệp trong hành trình số hóa - từ đánh giá hiện trạng, xây dựng lộ trình, đến triển khai công nghệ AI vào quy trình thực tế , giúp tối ưu vận hành và gia tăng năng suất",
-  },
-  {
-    key: 2,
-    title: "Hạ tầng số & giải pháp Cloud linh hoạt",
-    image: "/images/cloud.png",
-    desc: "Thiế t kế kiến trúc cloud tối ưu với mô hình kết hợp đám mây công cộng và riêng tư, đảm bảo an toàn dữ liệu, giảm chi phí cơ sở hạ tầng và tăng khả năng co giãn theo quy mô",
-  },
-  {
-    key: 3,
-    title: "Hệ sinh thái AI thông minh & Tự động hóa",
-    image: "/images/ai.png",
-    desc: "Phát triển giải pháp trí tuệ nhân tạo tích hợp - Chatbot đa nền tảng, AI Agent xử lý nghiệp vụ, và hệ thống phân tích thông minh - giúp doanh nghiệp tương tác liên tục và giảm thiểu chi phí nhân sự",
-  },
-  {
-    key: 4,
-    title: "Quản trị dữ liệu & phân tích kinh doanh",
-    image: "/images/data.png",
-    desc: "Chuyển đổi dữ liệu thô thành insight có giá trị thông qua hệ thống tích hợp đa nguồn, dashboard tổng hợp thông minh, và công cụ phân tích chuyên sâu để hỗ trợ định hướng chiến lược",
-  },
-  {
-    key: 5,
-    title: "Nền tảng số & Ứng dụng theo yêu cầu",
-    image: "/images/platform.png",
-    desc: "Xây dựng giải pháp nền tảng số chuyên sâu cho từng mô hình kinh doanh - marketplace, booking platform, enterprise system - với kiến trúc linh hoạt và khả năng tùy biến cao theo nhu cầu phát triển",
-  },
-];
+type Service = {
+  key: number;
+  title: string;
+  image: string;
+  desc: string;
+};
 
 export function ServicesHighlights() {
+  const { t } = useTranslation("home");
+
+  // try load array from locales, fallback to inline defaults that also use t() for labels
+  const i18nServices = t("services.items", { returnObjects: true }) as
+    | Service[]
+    | null;
+
+  const defaultServices: Service[] = [
+    {
+      key: 1,
+      title: t(
+        "services.defaults.1.title",
+        "Tư vấn triển khai chuyển đổi số toàn diện"
+      ),
+      image: "/images/digital.png",
+      desc: t(
+        "services.defaults.1.desc",
+        "Đồng hành cùng doanh nghiệp trong hành trình số hóa - từ đánh giá hiện trạng, xây dựng lộ trình, đến triển khai công nghệ AI vào quy trình thực tế, giúp tối ưu vận hành và gia tăng năng suất"
+      ),
+    },
+    {
+      key: 2,
+      title: t(
+        "services.defaults.2.title",
+        "Hạ tầng số & giải pháp Cloud linh hoạt"
+      ),
+      image: "/images/cloud.png",
+      desc: t(
+        "services.defaults.2.desc",
+        "Thiết kế kiến trúc cloud tối ưu với mô hình kết hợp đám mây công cộng và riêng tư, đảm bảo an toàn dữ liệu, giảm chi phí cơ sở hạ tầng và tăng khả năng mở rộng"
+      ),
+    },
+    {
+      key: 3,
+      title: t(
+        "services.defaults.3.title",
+        "Hệ sinh thái AI thông minh & Tự động hóa"
+      ),
+      image: "/images/ai.png",
+      desc: t(
+        "services.defaults.3.desc",
+        "Phát triển giải pháp trí tuệ nhân tạo tích hợp - Chatbot đa nền tảng, AI Agent xử lý nghiệp vụ, và hệ thống phân tích thông minh"
+      ),
+    },
+    {
+      key: 4,
+      title: t(
+        "services.defaults.4.title",
+        "Quản trị dữ liệu & phân tích kinh doanh"
+      ),
+      image: "/images/data.png",
+      desc: t(
+        "services.defaults.4.desc",
+        "Chuyển đổi dữ liệu thô thành insight có giá trị thông qua hệ thống tích hợp đa nguồn và dashboard tổng hợp"
+      ),
+    },
+    {
+      key: 5,
+      title: t(
+        "services.defaults.5.title",
+        "Nền tảng số & Ứng dụng theo yêu cầu"
+      ),
+      image: "/images/platform.png",
+      desc: t(
+        "services.defaults.5.desc",
+        "Xây dựng giải pháp nền tảng số chuyên sâu cho từng mô hình kinh doanh với kiến trúc linh hoạt"
+      ),
+    },
+  ];
+
+  const services: Service[] =
+    Array.isArray(i18nServices) && i18nServices.length
+      ? i18nServices
+      : defaultServices;
+
   const [active, setActive] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -120,7 +170,7 @@ export function ServicesHighlights() {
     };
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [active, isMobile]);
+  }, [active, isMobile, services.length]);
 
   // Desktop touch swipe
   useEffect(() => {
@@ -144,13 +194,13 @@ export function ServicesHighlights() {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [active, isMobile]);
+  }, [active, isMobile, services.length]);
 
   // Update URL hash only desktop
   useEffect(() => {
     if (!isMobile)
       window.history.replaceState(null, "", `#${services[active].key}`);
-  }, [active, isMobile]);
+  }, [active, isMobile, services]);
 
   return (
     <section
@@ -166,13 +216,19 @@ export function ServicesHighlights() {
             width={18}
             height={18}
           />
-          <span>Dịch vụ & Giải pháp</span>
+          <span>{t("services.badge", "Dịch vụ & Giải pháp")}</span>
         </div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
-          <span className="text-blue-600">Dịch vụ</span> & Giải pháp
+          <span className="text-blue-600">
+            {t("services.titlePart1", "Dịch vụ")}
+          </span>{" "}
+          {t("services.titlePart2", "& Giải pháp")}
         </h2>
         <p className="text-slate-500 mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
-          Giải pháp công nghệ toàn diện cho doanh nghiệp hiện đại
+          {t(
+            "services.subtitle",
+            "Giải pháp công nghệ toàn diện cho doanh nghiệp hiện đại"
+          )}
         </p>
       </div>
 
@@ -223,7 +279,7 @@ export function ServicesHighlights() {
                 />
               </div>
               <Button className="px-6 py-4 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
-                Xem chi tiết
+                {t("services.ctaDetails", "Xem chi tiết")}
               </Button>
             </div>
           ))
@@ -259,7 +315,7 @@ export function ServicesHighlights() {
                     {services[active].desc}
                   </p>
                   <Button className="px-6 py-6 text-lg rounded-xl bg-gradient-to-r from-[#FF8A48] to-[#FF6B2C] shadow-lg hover:scale-[1.03] transition">
-                    Xem chi tiết
+                    {t("services.ctaDetails", "Xem chi tiết")}
                   </Button>
                 </motion.div>
               </AnimatePresence>

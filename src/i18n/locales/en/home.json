@@ -1,0 +1,141 @@
+{
+    "footer": {
+        "about": {
+            "title": "About",
+            "text": "Your partner in building a digital future. With advanced AI and a dedicated expert team, GoalTech turns your goals into reality and creates sustainable value in the era of digital transformation."
+        },
+        "contact": {
+            "address": "Headquarter: Phan Dang Luu Street, Group 4, An Duong Ward, Hai Phong City, Vietnam",
+            "email": "contect@goaltechco.com",
+            "phone": "0362 069 118"
+        },
+        "cols": [{
+                "title": "About",
+                "links": ["About us", "Team", "News", "Contact"]
+            },
+            {
+                "title": "Services",
+                "links": [
+                    "Comprehensive digital transformation consulting",
+                    "Flexible cloud infrastructure & solutions",
+                    "Data governance & business analytics"
+                ]
+            },
+            {
+                "title": "Products",
+                "links": ["GoalMe", "GoalEdu"]
+            }
+        ]
+    },
+    "company": {
+        "badge": "About GoalTech",
+        "title": "Co-creating",
+        "highlight": "the Digital Era",
+        "description": "GoalTech is your partner in building a digital future. With advanced AI and a dedicated expert team, GoalTech turns your goals into reality and creates sustainable value in the era of digital transformation.",
+        "ctaContact": "Contact us",
+        "ctaLearn": "Learn more"
+    },
+    "services": {
+        "badge": "Services & Solutions",
+        "titlePart1": "Services",
+        "titlePart2": "& Solutions",
+        "subtitle": "Comprehensive technology solutions for modern enterprises",
+        "ctaDetails": "See details",
+        "defaults": {
+            "1": {
+                "title": "Comprehensive digital transformation consulting",
+                "desc": "Partnering with businesses on their digital journey — from assessment and roadmap to implementing AI into real workflows, optimizing operations and increasing productivity",
+                "image": "/images/digital.png"
+            },
+            "2": {
+                "title": "Flexible cloud infrastructure & solutions",
+                "desc": "Designing optimal cloud architectures with hybrid models to secure data, reduce infrastructure costs and scale with business needs",
+                "image": "/images/cloud.png"
+            },
+            "3": {
+                "title": "Smart AI ecosystem & Automation",
+                "desc": "Building integrated AI solutions — multi-platform chatbots, AI agents for business processes, and intelligent analytics to improve interaction and reduce labor costs",
+                "image": "/images/ai.png"
+            },
+            "4": {
+                "title": "Data governance & business analytics",
+                "desc": "Turning raw data into valuable insights via integrated systems, consolidated dashboards and advanced analytics tools to support strategic decisions",
+                "image": "/images/data.png"
+            },
+            "5": {
+                "title": "Digital platforms & Custom applications",
+                "desc": "Developing domain-specific digital platforms — marketplaces, booking platforms, enterprise systems — with flexible architectures and high customizability",
+                "image": "/images/platform.png"
+            }
+        }
+    },
+    "process": {
+        "badge": "Process",
+        "titlePart1": "Collaboration",
+        "titlePart2": "with GoalTech",
+        "subtitle": "A professional process ensuring quality and delivery timelines",
+        "defaults": {
+            "1": "Client consultation",
+            "2": "Contract & Planning",
+            "3": "Product / Solution Development",
+            "4": "Handover & Training",
+            "5": "Ongoing Support"
+        }
+    },
+    "partners": {
+        "badge": "Partners",
+        "titlePart1": "Partners",
+        "titlePart2": "We Work With",
+        "subtitle": "Trusted by hundreds of businesses across industries"
+    },
+    "projects": {
+        "badge": "Products",
+        "titlePart1": "Products",
+        "titlePart2": "Featured",
+        "subtitle": "Comprehensive solutions for all enterprise technology needs",
+        "goalme": {
+            "label": "GoalMe",
+            "title": "GoalMe - Sports App",
+            "description": "An app designed to connect players, coaches and manage teams and events.",
+            "features": [
+                "Connect sports players",
+                "Team & match schedule management",
+                "AI-powered features",
+                "Professional management system"
+            ],
+            "cta": "See details"
+        },
+        "goalmanager": {
+            "label": "GoalManager",
+            "title": "GoalManager - Management",
+            "description": "Comprehensive management platform for clubs and sports centers.",
+            "features": ["Member management", "Revenue tracking", "Smart reporting"],
+            "cta": "Explore"
+        }
+    },
+    "contact": {
+        "titlePart1": "Partner with",
+        "titlePart2": "GoalTech",
+        "benefits": [
+            "Optimize costs with modern technology",
+            "Flexible implementation approach over time",
+            "Transparent pricing with quality commitment"
+        ],
+        "benefit1": "Optimize costs with modern technology",
+        "benefit2": "Flexible implementation approach over time",
+        "benefit3": "Transparent pricing with quality commitment",
+        "cta": "Free consultation",
+        "form": {
+            "title": "Register for a free consultation",
+            "placeholders": {
+                "name": "Full name",
+                "phone": "Phone number",
+                "email": "Email",
+                "area": "Area",
+                "product": "Interested product",
+                "message": "Describe your needs"
+            },
+            "submit": "Send request"
+        }
+    }
+}
