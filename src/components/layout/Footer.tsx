@@ -14,16 +14,12 @@ export function Footer() {
     { src: "/images/linkedin.svg", key: "linkedin" },
   ];
 
-  // cols is an array returned from i18n (returnObjects: true)
-  const cols = t("footer.cols", { returnObjects: true }) as {
+  const rawCols = t("footer.cols", { returnObjects: true });
+
+  const cols: {
     title: string;
     links: string[];
-  }[];
-
-  const aboutText = t("footer.about.text");
-  const address = t("footer.contact.address");
-  const email = t("footer.contact.email");
-  const phone = t("footer.contact.phone");
+  }[] = Array.isArray(rawCols) ? rawCols : [];
 
   return (
     <footer className="w-full bg-white">
@@ -33,7 +29,7 @@ export function Footer() {
           <div className="w-full lg:w-[350px] flex flex-col gap-6">
             <Logo className="h-12 cursor-pointer" />
             <div className="flex items-center gap-3">
-              <span>{aboutText}</span>
+              <span>{t("footer.about.text")}</span>
               <br />
             </div>
             <div className="text-[#7B849F] text-sm space-y-2">
@@ -44,7 +40,7 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>{address}</span>
+                <span>{t("footer.contact.address")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Image
@@ -53,7 +49,7 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>{email}</span>
+                <span>{t("footer.contact.email")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Image
@@ -62,7 +58,7 @@ export function Footer() {
                   width={18}
                   height={18}
                 />
-                <span>{phone}</span>
+                <span>{t("footer.contact.phone")}</span>
               </div>
             </div>
 

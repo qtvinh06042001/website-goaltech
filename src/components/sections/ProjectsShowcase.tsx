@@ -24,7 +24,16 @@ const products = [
 export function ProjectsShowcase() {
   const { t } = useTranslation("home");
   const [active, setActive] = useState(products[0].key);
-  const productMeta = products.find((p) => p.key === active)!;
+  const productMeta = products.find((p) => p.key === active) ?? products[0];
+
+  const rawFeatures = t(
+    `projects.${productMeta.key}.features`,
+    { returnObjects: true }
+  );
+
+  const features: string[] = Array.isArray(rawFeatures)
+    ? rawFeatures
+    : [];
 
   const product = {
     label: t(`projects.${productMeta.key}.label`, {
@@ -32,9 +41,7 @@ export function ProjectsShowcase() {
     }),
     title: t(`projects.${productMeta.key}.title`),
     description: t(`projects.${productMeta.key}.description`),
-    features: t(`projects.${productMeta.key}.features`, {
-      returnObjects: true,
-    }) as string[],
+    features,
     cta: t(`projects.${productMeta.key}.cta`),
     logo: productMeta.logo,
     image: productMeta.image,
@@ -77,11 +84,10 @@ export function ProjectsShowcase() {
               key={p.key}
               onClick={() => setActive(p.key)}
               className={`px-6 py-2 rounded-full font-semibold transition
-              ${
-                active === p.key
+              ${active === p.key
                   ? "bg-blue-600 text-white shadow"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+                }`}
             >
               {t(`projects.${p.key}.label`, p.key)}
             </button>

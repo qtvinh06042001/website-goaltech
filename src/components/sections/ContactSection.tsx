@@ -11,7 +11,24 @@ import { useTranslation } from "react-i18next";
 export function ContactSection() {
   const { t } = useTranslation("home");
 
-  const benefits = t("contact.benefits", { returnObjects: true }) as string[];
+  const rawBenefits = t("contact.benefits", { returnObjects: true });
+
+  const benefits: string[] = Array.isArray(rawBenefits)
+    ? rawBenefits
+    : [
+      t(
+        "contact.benefit1",
+        "Tối ưu chi phí với công nghệ hiện đại"
+      ),
+      t(
+        "contact.benefit2",
+        "Phương pháp triển khai linh hoạt theo thời gian"
+      ),
+      t(
+        "contact.benefit3",
+        "Minh bạch chi phí với cam kết chất lượng"
+      ),
+    ];
   const formTitle = t("contact.form.title", "Đăng ký nhận tư vấn miễn phí");
   const placeholders = {
     name: t("contact.form.placeholders.name", "Họ và tên"),
@@ -55,19 +72,19 @@ export function ContactSection() {
               {(Array.isArray(benefits)
                 ? benefits
                 : [
-                    t(
-                      "contact.benefit1",
-                      "Tối ưu chi phí với công nghệ hiện đại"
-                    ),
-                    t(
-                      "contact.benefit2",
-                      "Phương pháp triển khai linh hoạt theo thời gian"
-                    ),
-                    t(
-                      "contact.benefit3",
-                      "Minh bạch chi phí với cam kết chất lượng"
-                    ),
-                  ]
+                  t(
+                    "contact.benefit1",
+                    "Tối ưu chi phí với công nghệ hiện đại"
+                  ),
+                  t(
+                    "contact.benefit2",
+                    "Phương pháp triển khai linh hoạt theo thời gian"
+                  ),
+                  t(
+                    "contact.benefit3",
+                    "Minh bạch chi phí với cam kết chất lượng"
+                  ),
+                ]
               ).map((item, index) => (
                 <li
                   key={index}
