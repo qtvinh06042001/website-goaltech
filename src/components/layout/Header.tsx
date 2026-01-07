@@ -63,7 +63,7 @@ export function Header() {
 
   // build nav items using i18n keys (re-renders on language change)
   const navItems = [
-    { label: t("home"), href: "/" },
+    { label: t("home"), href: "/#home" },
     {
       label: t("product"),
       href: "/#product",
@@ -217,15 +217,23 @@ export function Header() {
       {mobileOpen && (
         <div
           ref={mobileMenuRef}
-          className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg rounded-b-xl"
+          className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg rounded-b-xl overflow-visible"
         >
           <ul className="flex flex-col p-4 gap-3">
-            {/* mobile language selector */}
+            {/* mobile language selector - inline row so popup appears on same line as chevron */}
             <li>
-              <div className="flex items-center gap-3 px-2">
-                <LanguageSwitcher />
+              <div className="px-2">
+                <div className="inline-flex items-center justify-between w-full">
+                  <span className="text-sm text-[#112639] font-medium">
+                    {t("language.label", "Language")}
+                  </span>
+                  <div className="inline-flex items-center">
+                    <LanguageSwitcher />
+                  </div>
+                </div>
               </div>
             </li>
+
             {navItems.map((item, index) => (
               <li key={index}>
                 {item.hasDropdown ? (
