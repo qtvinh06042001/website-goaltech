@@ -63,7 +63,7 @@ export function Header() {
 
   // build nav items using i18n keys (re-renders on language change)
   const navItems = [
-    { label: t("home"), href: "/" },
+    { label: t("home"), href: "/#home" },
     {
       label: t("product"),
       href: "/#product",
