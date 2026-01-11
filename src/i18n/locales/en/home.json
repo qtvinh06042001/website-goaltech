@@ -6,12 +6,18 @@
         },
         "contact": {
             "address": "Headquarter: Phan Dang Luu Street, Group 4, An Duong Ward, Hai Phong City, Vietnam",
-            "email": "contect@goaltechco.com",
+            "email": "contact@goaltechco.com",
             "phone": "0362 069 118"
         },
-        "cols": [{
+        "cols": [
+            {
                 "title": "About",
-                "links": ["About us", "Team", "News", "Contact"]
+                "links": [
+                    "About us",
+                    "Team",
+                    "News",
+                    "Contact"
+                ]
             },
             {
                 "title": "Services",
@@ -23,7 +29,10 @@
             },
             {
                 "title": "Products",
-                "links": ["GoalMe", "GoalEdu"]
+                "links": [
+                    "GoalMe",
+                    "GoalEdu"
+                ]
             }
         ]
     },
@@ -109,7 +118,11 @@
             "label": "GoalManager",
             "title": "GoalManager - Management",
             "description": "Comprehensive management platform for clubs and sports centers.",
-            "features": ["Member management", "Revenue tracking", "Smart reporting"],
+            "features": [
+                "Member management",
+                "Revenue tracking",
+                "Smart reporting"
+            ],
             "cta": "Explore"
         }
     },

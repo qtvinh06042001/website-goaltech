@@ -6,12 +6,18 @@
         },
         "contact": {
             "address": "Trụ sở: Đường Phan Đăng Lưu, Tổ 4, Phường An Dương, Thành phố Hải Phòng, Việt Nam",
-            "email": "contect@goaltechco.com",
+            "email": "contact@goaltechco.com",
             "phone": "0362 069 118"
         },
-        "cols": [{
+        "cols": [
+            {
                 "title": "Giới thiệu",
-                "links": ["Về chúng tôi", "Đội ngũ nhân viên", "Tin tức", "Liên hệ"]
+                "links": [
+                    "Về chúng tôi",
+                    "Đội ngũ nhân viên",
+                    "Tin tức",
+                    "Liên hệ"
+                ]
             },
             {
                 "title": "Dịch vụ",
@@ -23,7 +29,10 @@
             },
             {
                 "title": "Sản phẩm",
-                "links": ["GoalMe", "GoalEdu"]
+                "links": [
+                    "GoalMe",
+                    "GoalEdu"
+                ]
             }
         ]
     },
