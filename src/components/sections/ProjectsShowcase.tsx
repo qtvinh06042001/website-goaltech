@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 const products = [
   {
     key: "goalme",
-    logo: "/images/logo-goalme.png",
+    logo: "/images/logo.svg",
     image: "/images/goalme_app.png",
   },
   {
     key: "goalmanager",
-    logo: "/images/logo-goalme.png",
+    logo: "/images/logo.svg",
     image: "/images/goalme_app.png",
   },
 ];
